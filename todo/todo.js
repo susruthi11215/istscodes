@@ -1,3 +1,4 @@
+
 let todos = [];
 
 function addTodo() {
@@ -44,18 +45,23 @@ function displayTodos() {
 
         li.className = "todo-item";
 
+
         const span = document.createElement("span");
 
         span.className = "todo-text";
 
         span.textContent = todo.text;
 
+
         if (todo.completed) {
             span.classList.add("completed");
         }
 
+
         span.onclick = function() {
+
             toggleTodo(index);
+
         };
 
 
@@ -65,8 +71,11 @@ function displayTodos() {
 
         deleteButton.textContent = "Delete";
 
+
         deleteButton.onclick = function() {
+
             deleteTodo(index);
+
         };
 
 
@@ -97,18 +106,6 @@ function deleteTodo(index) {
 }
 
 
-function clearCompleted() {
-
-    todos = todos.filter(function(todo) {
-
-        return !todo.completed;
-
-    });
-
-    displayTodos();
-}
-
-
 document.getElementById("todoInput").addEventListener(
     "keyup",
     function(event) {
@@ -124,3 +121,4 @@ document.getElementById("todoInput").addEventListener(
 
 
 displayTodos();
+

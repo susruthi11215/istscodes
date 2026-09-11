@@ -11,7 +11,7 @@
 
     <h2>Registration Form</h2>
 
-    <form action="/register" method="post">
+    <form id="registrationForm" action="/register" method="post">
 
         <label>Full Name:</label>
         <input type="text" id="fullname" name="fullname" required>
@@ -29,9 +29,13 @@
         <br><br>
 
         <input type="submit" value="Register">
-        <input type="reset" value="Reset">
-
+        <button type="button" onclick="resetForm()">Reset</button>
     </form>
+    <script>
+        function resetForm() {
+            document.getElementById("registrationForm").reset();
+        }
+    </script>
 
 </body>
 

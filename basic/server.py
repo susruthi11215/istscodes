@@ -29,17 +29,27 @@ def create_database():
 
 
 # -----------------------------------
-# Home Page
+# Home Page - Navbar
 # -----------------------------------
 
 @app.route("/")
 def home():
 
+    return render_template("navbar.html")
+
+
+# -----------------------------------
+# Registration Page - GET
+# -----------------------------------
+
+@app.route("/register", methods=["GET"])
+def register_page():
+
     return render_template("register2.html")
 
 
 # -----------------------------------
-# Registration Path
+# Registration Path - POST
 # -----------------------------------
 
 @app.route("/register", methods=["POST"])
@@ -66,7 +76,10 @@ def register():
 
         connection.close()
 
-        return "Username already exists!"
+        return """
+        <h2>Username already exists!</h2>
+        <a href="/register">Try Again</a>
+        """
 
     connection.close()
 
@@ -74,7 +87,7 @@ def register():
 
 
 # -----------------------------------
-# Login Page
+# Login Page - GET
 # -----------------------------------
 
 @app.route("/login", methods=["GET"])
@@ -84,7 +97,7 @@ def login_page():
 
 
 # -----------------------------------
-# Login Path
+# Login Path - POST
 # -----------------------------------
 
 @app.route("/login", methods=["POST"])
@@ -108,11 +121,19 @@ def login():
 
     if user:
 
-        return "<h2>Login successful!</h2><p>Welcome, " + username + "!</p>"
+        return """
+        <h2>Login successful!</h2>
+        <p>Welcome, """ + username + """!</p>
+        <a href="/">Go to Home</a>
+        """
 
     else:
 
-        return "<h2>Login failed!</h2><p>Username or password is incorrect.</p>"
+        return """
+        <h2>Login failed!</h2>
+        <p>Username or password is incorrect.</p>
+        <a href="/login">Try Again</a>
+        """
 
 
 # -----------------------------------

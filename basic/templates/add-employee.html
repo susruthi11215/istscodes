@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Employee</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            height: 102px;
+
+            background-color: #222222;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 55px;
+        }
+
+
+        /* Logo */
+
+        .logo {
+
+            color: white;
+
+            font-size: 42px;
+
+            font-weight: bold;
+        }
+
+
+        /* Navigation */
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 38px;
+        }
+
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: white;
+
+            font-size: 32px;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #00b8d4;
+        }
+
+
+        /* Login */
+
+        .login-btn {
+
+            border: 1px solid #00b8d4;
+
+            border-radius: 10px;
+
+            padding: 10px 28px;
+        }
+
+
+        /* Register */
+
+        .register-btn {
+
+            background-color: #00b8d4;
+
+            padding: 10px 28px;
+
+            border-radius: 10px;
+        }
+
+
+        /* =========================
+           ADD EMPLOYEE CONTAINER
+        ========================= */
+
+        .container {
+
+            width: 75%;
+
+            max-width: 1000px;
+
+            margin: 55px auto;
+
+            padding: 35px 45px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            box-shadow:
+                0 3px 10px
+                rgba(0, 0, 0, 0.1);
+        }
+
+
+        /* Heading */
+
+        h1 {
+
+            text-align: center;
+
+            font-size: 40px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #666;
+
+            font-size: 19px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* Rows */
+
+        .row {
+
+            display: flex;
+
+            gap: 25px;
+
+            margin-bottom: 22px;
+        }
+
+
+        /* Form Group */
+
+        .form-group {
+
+            flex: 1;
+
+            margin-bottom: 22px;
+        }
+
+
+        /* Labels */
+
+        label {
+
+            display: block;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* Input */
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 13px;
+
+            font-size: 16px;
+
+            border: 1px solid #bbb;
+
+            border-radius: 5px;
+
+            outline: none;
+        }
+
+
+        /* Focus */
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #00b8d4;
+
+            box-shadow:
+                0 0 4px
+                rgba(0, 188, 212, 0.4);
+        }
+
+
+        /* Textarea */
+
+        textarea {
+
+            resize: vertical;
+        }
+
+
+        /* Buttons */
+
+        .buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            margin-top: 10px;
+        }
+
+
+        /* Add Button */
+
+        .add-btn {
+
+            background-color: #00b8d4;
+
+            color: white;
+
+            border: none;
+
+            padding: 14px 30px;
+
+            font-size: 17px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+
+        .add-btn:hover {
+
+            background-color: #0097a7;
+        }
+
+
+        /* Reset Button */
+
+        .reset-btn {
+
+            background-color: white;
+
+            color: #333;
+
+            border: 1px solid #333;
+
+            padding: 14px 30px;
+
+            font-size: 17px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+
+        .reset-btn:hover {
+
+            background-color: #333;
+
+            color: white;
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+
+                height: auto;
+
+                flex-direction: column;
+
+                padding: 20px;
+            }
+
+            .logo {
+
+                font-size: 30px;
+
+                margin-bottom: 20px;
+            }
+
+            .nav-links {
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+
+                gap: 15px;
+            }
+
+            .nav-links a {
+
+                font-size: 20px;
+            }
+
+            .container {
+
+                width: 90%;
+            }
+
+            .row {
+
+                flex-direction: column;
+
+                gap: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+
+    <!-- =========================
+         ADD EMPLOYEE SECTION
+    ========================= -->
+
+    <div class="container">
+
+
+        <h1>Add Employee</h1>
+
+
+        <form
+            action="/add-employee"
+            method="POST">
+
+
+            <!-- Employee Name -->
+
+            <div class="row">
+
+                <div class="form-group">
+
+                    <label for="name">Employee Name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter employee name"
+                        required>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label for="email">
+
+                        Email
+
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter email"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- Phone + Department -->
+
+            <div class="row">
+
+
+                <!-- Phone -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+
+                        Phone Number
+
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter phone number"
+                        required>
+
+                </div>
+
+
+                <!-- Department -->
+
+                <div class="form-group">
+
+                    <label for="department">
+
+                        Department
+
+                    </label>
+
+
+                    <select
+                        id="department"
+                        name="department"
+                        required>
+
+
+                        <option value="">
+
+                            Select Department
+
+                        </option>
+
+
+                        <option value="IT">
+
+                            IT
+
+                        </option>
+
+
+                        <option value="HR">
+
+                            HR
+
+                        </option>
+
+
+                        <option value="Finance">
+
+                            Finance
+
+                        </option>
+
+
+                        <option value="Marketing">
+
+                            Marketing
+
+                        </option>
+
+
+                        <option value="Sales">
+
+                            Sales
+
+                        </option>
+
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- Salary + Joining Date -->
+
+            <div class="row">
+
+
+                <!-- Salary -->
+
+                <div class="form-group">
+
+                    <label for="salary">
+
+                        Salary
+
+                    </label>
+
+                    <input
+                        type="number"
+                        id="salary"
+                        name="salary"
+                        placeholder="Enter salary"
+                        required>
+
+                </div>
+
+
+                <!-- Joining Date -->
+
+                <div class="form-group">
+
+                    <label for="joining_date">
+
+                        Joining Date
+
+                    </label>
+
+                    <input
+                        type="date"
+                        id="joining_date"
+                        name="joining_date"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- Address -->
+
+            <div class="form-group">
+
+                <label for="address">
+
+                    Address
+
+                </label>
+
+
+                <textarea
+                    id="address"
+                    name="address"
+                    rows="4"
+                    placeholder="Enter employee address"></textarea>
+
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div class="buttons">
+
+
+                <button
+                    type="submit"
+                    class="add-btn">
+
+                    Add Employee
+
+                </button>
+
+
+                <button
+                    type="reset"
+                    class="reset-btn">
+
+                    Reset
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</body>
+
+</html>

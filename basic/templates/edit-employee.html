@@ -14,15 +14,12 @@
 
         * {
             margin: 0;
-
             padding: 0;
-
             box-sizing: border-box;
         }
 
         body {
             font-family: Arial, sans-serif;
-
             background-color: #f5f5f5;
         }
 
@@ -30,39 +27,28 @@
 
         .navbar {
             background-color: #222;
-
             padding: 15px 30px;
-
             display: flex;
-
             align-items: center;
         }
 
         .logo {
             color: white;
-
             font-size: 22px;
-
             font-weight: bold;
-
             margin-right: auto;
         }
 
         .nav-links {
             display: flex;
-
             align-items: center;
-
             list-style: none;
-
             gap: 20px;
         }
 
         .nav-links a {
             color: white;
-
             text-decoration: none;
-
             font-size: 16px;
         }
 
@@ -74,74 +60,51 @@
 
         .container {
             width: 600px;
-
             max-width: 90%;
-
             margin: 40px auto;
-
             background-color: white;
-
             padding: 30px;
-
             border-radius: 10px;
-
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         h1 {
             text-align: center;
-
             margin-bottom: 25px;
         }
 
         label {
             display: block;
-
             margin-top: 15px;
-
             margin-bottom: 5px;
-
             font-weight: bold;
         }
 
         input,
         textarea {
             width: 100%;
-
             padding: 10px;
-
             border: 1px solid #ccc;
-
             border-radius: 5px;
-
             font-size: 15px;
         }
 
         textarea {
             height: 100px;
-
             resize: vertical;
         }
 
-        /* ================= UPDATE ================= */
+        /* ================= UPDATE BUTTON ================= */
 
         .update-btn {
             width: 100%;
-
             margin-top: 25px;
-
             padding: 12px;
-
             border: none;
-
             background-color: #00bcd4;
-
             color: white;
-
             font-size: 16px;
-
             border-radius: 5px;
-
             cursor: pointer;
         }
 
@@ -149,18 +112,18 @@
             background-color: #0097a7;
         }
 
-        /* ================= BACK ================= */
+        /* ================= BACK BUTTON ================= */
 
         .back-btn {
             display: block;
-
             text-align: center;
-
             margin-top: 15px;
-
             text-decoration: none;
-
             color: #333;
+        }
+
+        .back-btn:hover {
+            color: #00bcd4;
         }
 
     </style>
@@ -169,17 +132,13 @@
 
 <body>
 
-
     <!-- ================= NAVBAR ================= -->
 
     <nav class="navbar">
 
         <div class="logo">
-
             Employee Management System
-
         </div>
-
 
         <ul class="nav-links">
 
@@ -214,11 +173,9 @@
             Edit Employee
         </h1>
 
-
         <form
             action="/edit-employee/{{ employee['id'] }}"
             method="POST">
-
 
             <label>
                 Employee Name
@@ -292,7 +249,7 @@
 
             <textarea
                 name="address"
-                required>{{ employee['address'] }}</textarea>
+                required>{{ employee['address'] or '' }}</textarea>
 
 
             <button
@@ -315,7 +272,7 @@
 
     </div>
 
-
 </body>
 
 </html>
+

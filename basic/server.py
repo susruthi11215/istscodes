@@ -24,13 +24,9 @@ def get_database_connection():
 def create_database():
 
     connection = sqlite3.connect("users.db")
-
     cursor = connection.cursor()
 
-    # =====================================
     # USERS TABLE
-    # =====================================
-
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
 
@@ -45,11 +41,7 @@ def create_database():
         )
     """)
 
-
-    # =====================================
     # EMPLOYEES TABLE
-    # =====================================
-
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS employees (
 
@@ -73,8 +65,9 @@ def create_database():
     """)
 
     connection.commit()
-
     connection.close()
+
+    print("Database and tables created successfully!")
 
 
 # =========================================
@@ -110,7 +103,6 @@ def register():
 
     password = request.form["password"]
 
-
     connection = sqlite3.connect("users.db")
 
     cursor = connection.cursor()
@@ -119,8 +111,11 @@ def register():
 
         cursor.execute("""
             INSERT INTO users
-            (fullname, username, password)
-
+            (
+                fullname,
+                username,
+                password
+            )
             VALUES (?, ?, ?)
         """, (
             fullname,
@@ -143,7 +138,6 @@ def register():
             Try Again
         </a>
         """
-
 
     connection.close()
 
@@ -171,7 +165,6 @@ def login():
 
     password = request.form["password"]
 
-
     connection = sqlite3.connect("users.db")
 
     cursor = connection.cursor()
@@ -190,7 +183,6 @@ def login():
 
     connection.close()
 
-
     if user:
 
         return """
@@ -205,7 +197,6 @@ def login():
         <a href="/">
             Go to Home
         </a>
-
         """
 
     else:
@@ -222,7 +213,6 @@ def login():
         <a href="/login">
             Try Again
         </a>
-
         """
 
 
@@ -243,28 +233,44 @@ def add_employee_page():
 @app.route("/add-employee", methods=["POST"])
 def add_employee():
 
-    name = request.form["name"]
+    name = request.form.get("name")
+    email = request.form.get("email")
+    phone = request.form.get("phone")
+    department = request.form.get("department")
+    salary = request.form.get("salary")
+    joining_date = request.form.get("joining_date")
+    address = request.form.get("address")
 
-    email = request.form["email"]
-
-    phone = request.form["phone"]
-
-    department = request.form["department"]
-
-    salary = request.form["salary"]
-
-    joining_date = request.form["joining_date"]
-
-    address = request.form["address"]
-
+    print("=================================")
+    print("ADDING EMPLOYEE")
+    print("Name:", name)
+    print("Email:", email)
+    print("Phone:", phone)
+    print("Department:", department)
+    print("Salary:", salary)
+    print("Joining Date:", joining_date)
+    print("Address:", address)
+    print("=================================")
 
     connection = sqlite3.connect("users.db")
 
     cursor = connection.cursor()
 
-    cursor.execute("""
-        INSERT INTO employees
-        (
+    try:
+
+        cursor.execute("""
+            INSERT INTO employees
+            (
+                name,
+                email,
+                phone,
+                department,
+                salary,
+                joining_date,
+                address
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (
             name,
             email,
             phone,
@@ -272,27 +278,34 @@ def add_employee():
             salary,
             joining_date,
             address
-        )
+        ))
 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        connection.commit()
 
-    """, (
-        name,
-        email,
-        phone,
-        department,
-        salary,
-        joining_date,
-        address
-    ))
+        print("Employee inserted successfully!")
+        print("New Employee ID:", cursor.lastrowid)
 
-    connection.commit()
+    except sqlite3.Error as error:
+
+        connection.rollback()
+
+        print("Database Error:", error)
+
+        connection.close()
+
+        return f"""
+        <h2>Error adding employee</h2>
+
+        <p>{error}</p>
+
+        <br>
+
+        <a href="/add-employee">
+            Go Back
+        </a>
+        """
 
     connection.close()
-
-
-    # After adding employee,
-    # go directly to Employees page
 
     return redirect("/employees")
 
@@ -368,7 +381,6 @@ def edit_employee_page(id):
 
     connection.close()
 
-
     if employee is None:
 
         return """
@@ -380,7 +392,6 @@ def edit_employee_page(id):
             Back to Employees
         </a>
         """
-
 
     return render_template(
         "edit-employee.html",
@@ -409,7 +420,6 @@ def edit_employee(id):
 
     address = request.form["address"]
 
-
     connection = sqlite3.connect("users.db")
 
     cursor = connection.cursor()
@@ -418,23 +428,15 @@ def edit_employee(id):
         UPDATE employees
 
         SET
-
             name = ?,
-
             email = ?,
-
             phone = ?,
-
             department = ?,
-
             salary = ?,
-
             joining_date = ?,
-
             address = ?
 
         WHERE id = ?
-
     """, (
         name,
         email,
@@ -450,7 +452,6 @@ def edit_employee(id):
 
     connection.close()
 
-
     return redirect("/employees")
 
 
@@ -463,3 +464,4 @@ if __name__ == "__main__":
     create_database()
 
     app.run(debug=True)
+

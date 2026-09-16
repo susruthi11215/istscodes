@@ -2,68 +2,56 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Employees</title>
+    <title>Employee Management System</title>
 
     <style>
-
         * {
             margin: 0;
-
             padding: 0;
-
             box-sizing: border-box;
         }
 
         body {
             font-family: Arial, sans-serif;
-
             background-color: #f5f5f5;
+            color: #222;
         }
 
         /* ================= NAVBAR ================= */
 
         .navbar {
             background-color: #222;
-
-            padding: 15px 30px;
+            min-height: 70px;
+            padding: 0 35px;
 
             display: flex;
-
             align-items: center;
+            justify-content: space-between;
         }
 
         .logo {
             color: white;
-
             font-size: 22px;
-
             font-weight: bold;
-
-            margin-right: auto;
         }
 
         .nav-links {
             display: flex;
-
             align-items: center;
-
+            gap: 25px;
             list-style: none;
-
-            gap: 20px;
         }
 
         .nav-links a {
             color: white;
-
             text-decoration: none;
-
             font-size: 16px;
+            padding: 10px 12px;
+            border-radius: 5px;
+            transition: 0.3s;
         }
 
         .nav-links a:hover {
@@ -72,59 +60,62 @@
 
         .login-btn {
             border: 1px solid #00bcd4;
+        }
 
-            padding: 8px 15px;
-
-            border-radius: 5px;
+        .login-btn:hover {
+            background-color: #00bcd4;
+            color: white !important;
         }
 
         .register-btn {
             background-color: #00bcd4;
-
-            padding: 8px 15px;
-
-            border-radius: 5px;
         }
 
-        /* ================= CONTAINER ================= */
+        .register-btn:hover {
+            background-color: #0097a7;
+            color: white !important;
+        }
+
+        /* ================= MAIN CONTAINER ================= */
 
         .container {
-            width: 95%;
-
+            width: 92%;
+            max-width: 1400px;
             margin: 40px auto;
         }
 
         h1 {
             text-align: center;
-
             margin-bottom: 30px;
-
-            color: #222;
+            font-size: 32px;
         }
 
-        /* ================= ADD BUTTON ================= */
+        /* ================= ADD EMPLOYEE ================= */
+
+        .add-section {
+            margin-bottom: 20px;
+        }
 
         .add-btn {
             display: inline-block;
-
             background-color: #00bcd4;
-
             color: white;
-
             text-decoration: none;
 
-            padding: 10px 18px;
-
+            padding: 11px 20px;
             border-radius: 5px;
 
-            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: bold;
+
+            transition: 0.3s;
         }
 
         .add-btn:hover {
             background-color: #0097a7;
         }
 
-        /* ================= TABLE ================= */
+        /* ================= TABLE CONTAINER ================= */
 
         .table-container {
             background-color: white;
@@ -133,147 +124,150 @@
 
             border-radius: 10px;
 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
             overflow-x: auto;
         }
 
+        /* ================= TABLE ================= */
+
         table {
             width: 100%;
-
             border-collapse: collapse;
-
             min-width: 1100px;
         }
 
-        th {
+        thead {
             background-color: #222;
+        }
 
+        th {
             color: white;
-
-            padding: 14px;
-
+            padding: 15px;
             text-align: left;
+            white-space: nowrap;
         }
 
         td {
-            padding: 12px;
-
+            padding: 13px 15px;
             border-bottom: 1px solid #ddd;
+            white-space: nowrap;
         }
 
-        tr:hover {
+        tbody tr:hover {
             background-color: #f5f5f5;
         }
 
-        /* ================= EDIT BUTTON ================= */
+        /* ================= ACTION BUTTONS ================= */
 
-        .edit-btn {
+        .actions {
+            white-space: nowrap;
+        }
+
+        .edit-btn,
+        .delete-btn {
             display: inline-block;
 
-            background-color: #00bcd4;
-
             color: white;
-
             text-decoration: none;
 
-            padding: 7px 12px;
+            padding: 8px 13px;
 
             border-radius: 5px;
 
+            font-size: 14px;
+
             margin-right: 5px;
+        }
+
+        .edit-btn {
+            background-color: #00bcd4;
         }
 
         .edit-btn:hover {
             background-color: #0097a7;
         }
 
-        /* ================= DELETE BUTTON ================= */
-
         .delete-btn {
-            display: inline-block;
-
             background-color: #e53935;
-
-            color: white;
-
-            text-decoration: none;
-
-            padding: 7px 12px;
-
-            border-radius: 5px;
         }
 
         .delete-btn:hover {
             background-color: #c62828;
         }
 
-        /* ================= NO DATA ================= */
+        /* ================= MOBILE ================= */
 
-        .no-data {
-            text-align: center;
+        @media (max-width: 900px) {
 
-            padding: 30px;
+            .navbar {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+            }
 
-            font-size: 18px;
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
 
-            color: #777;
+            .container {
+                width: 95%;
+                margin-top: 30px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
         }
-
     </style>
-
 </head>
 
 <body>
-
 
     <!-- ================= NAVBAR ================= -->
 
     <nav class="navbar">
 
         <div class="logo">
-
             Employee Management System
-
         </div>
-
 
         <ul class="nav-links">
 
             <li>
-                <a href="/">
+                <a href="index.html">
                     Home
                 </a>
             </li>
 
             <li>
-                <a href="/employees">
+                <a href="employees.html">
                     Employees
                 </a>
             </li>
 
             <li>
-                <a href="/add-employee">
+                <a href="add-employee.html">
                     Add Employee
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="search.html">
                     Search
                 </a>
             </li>
 
             <li>
-                <a href="/login"
-                   class="login-btn">
+                <a href="login.html" class="login-btn">
                     Login
                 </a>
             </li>
 
             <li>
-                <a href="/register"
-                   class="register-btn">
+                <a href="register.html" class="register-btn">
                     Register
                 </a>
             </li>
@@ -283,7 +277,7 @@
     </nav>
 
 
-    <!-- ================= EMPLOYEES ================= -->
+    <!-- ================= EMPLOYEE INFORMATION ================= -->
 
     <div class="container">
 
@@ -292,19 +286,20 @@
         </h1>
 
 
-        <a href="/add-employee"
-           class="add-btn">
+        <!-- ADD EMPLOYEE BUTTON -->
 
-            + Add Employee
+        <div class="add-section">
 
-        </a>
+            <a href="add-employee.html" class="add-btn">
+                + Add Employee
+            </a>
 
+        </div>
+
+
+        <!-- ================= TABLE ================= -->
 
         <div class="table-container">
-
-
-            {% if employees %}
-
 
             <table>
 
@@ -312,41 +307,23 @@
 
                     <tr>
 
-                        <th>
-                            ID
-                        </th>
+                        <th>ID</th>
 
-                        <th>
-                            Name
-                        </th>
+                        <th>Name</th>
 
-                        <th>
-                            Email
-                        </th>
+                        <th>Email</th>
 
-                        <th>
-                            Phone
-                        </th>
+                        <th>Phone</th>
 
-                        <th>
-                            Department
-                        </th>
+                        <th>Department</th>
 
-                        <th>
-                            Salary
-                        </th>
+                        <th>Salary</th>
 
-                        <th>
-                            Joining Date
-                        </th>
+                        <th>Joining Date</th>
 
-                        <th>
-                            Address
-                        </th>
+                        <th>Address</th>
 
-                        <th>
-                            Actions
-                        </th>
+                        <th>Actions</th>
 
                     </tr>
 
@@ -355,98 +332,164 @@
 
                 <tbody>
 
-
-                    {% for employee in employees %}
-
+                    <!-- EMPLOYEE 1 -->
 
                     <tr>
 
-                        <td>
-                            {{ employee['id'] }}
-                        </td>
+                        <td>1</td>
 
-                        <td>
-                            {{ employee['name'] }}
-                        </td>
+                        <td>Susruthi</td>
 
-                        <td>
-                            {{ employee['email'] }}
-                        </td>
+                        <td>susruthi@gmail.com</td>
 
-                        <td>
-                            {{ employee['phone'] }}
-                        </td>
+                        <td>9876543210</td>
 
-                        <td>
-                            {{ employee['department'] }}
-                        </td>
+                        <td>IT</td>
 
-                        <td>
-                            ₹{{ employee['salary'] }}
-                        </td>
+                        <td>₹45,000</td>
 
-                        <td>
-                            {{ employee['joining_date'] }}
-                        </td>
+                        <td>10-01-2026</td>
 
-                        <td>
-                            {{ employee['address'] }}
-                        </td>
+                        <td>Hyderabad</td>
 
-                        <td>
+                        <td class="actions">
 
-
-                            <!-- EDIT -->
-
-                            <a href="/edit-employee/{{ employee['id'] }}"
+                            <a href="edit-employee.html"
                                class="edit-btn">
-
                                 Edit
-
                             </a>
 
-
-                            <!-- DELETE -->
-
-                            <a href="/delete-employee/{{ employee['id'] }}"
+                            <a href="#"
                                class="delete-btn"
                                onclick="return confirm('Are you sure you want to delete this employee?');">
-
                                 Delete
-
                             </a>
-
 
                         </td>
 
                     </tr>
 
 
-                    {% endfor %}
+                    <!-- EMPLOYEE 2 -->
 
+                    <tr>
+
+                        <td>2</td>
+
+                        <td>Rahul</td>
+
+                        <td>rahul@gmail.com</td>
+
+                        <td>9876543211</td>
+
+                        <td>HR</td>
+
+                        <td>₹40,000</td>
+
+                        <td>15-02-2026</td>
+
+                        <td>Hyderabad</td>
+
+                        <td class="actions">
+
+                            <a href="edit-employee.html"
+                               class="edit-btn">
+                                Edit
+                            </a>
+
+                            <a href="#"
+                               class="delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this employee?');">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- EMPLOYEE 3 -->
+
+                    <tr>
+
+                        <td>3</td>
+
+                        <td>Anjali</td>
+
+                        <td>anjali@gmail.com</td>
+
+                        <td>9876543212</td>
+
+                        <td>Finance</td>
+
+                        <td>₹50,000</td>
+
+                        <td>20-03-2026</td>
+
+                        <td>Vijayawada</td>
+
+                        <td class="actions">
+
+                            <a href="edit-employee.html"
+                               class="edit-btn">
+                                Edit
+                            </a>
+
+                            <a href="#"
+                               class="delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this employee?');">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- EMPLOYEE 4 -->
+
+                    <tr>
+
+                        <td>4</td>
+
+                        <td>Praveen</td>
+
+                        <td>praveen@gmail.com</td>
+
+                        <td>9876543213</td>
+
+                        <td>Marketing</td>
+
+                        <td>₹42,000</td>
+
+                        <td>05-04-2026</td>
+
+                        <td>Guntur</td>
+
+                        <td class="actions">
+
+                            <a href="edit-employee.html"
+                               class="edit-btn">
+                                Edit
+                            </a>
+
+                            <a href="#"
+                               class="delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this employee?');">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
 
                 </tbody>
 
             </table>
 
-
-            {% else %}
-
-
-            <div class="no-data">
-
-                No employees found.
-
-            </div>
-
-
-            {% endif %}
-
-
         </div>
 
     </div>
-
 
 </body>
 

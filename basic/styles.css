@@ -1,0 +1,242 @@
+
+/* General Page Styling */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Main Content */
+main {
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto;
+}
+
+/* Sections */
+section {
+    background-color: white;
+    margin-bottom: 25px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+section h2 {
+    color: #2563eb;
+    margin-top: 0;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 10px;
+}
+
+section h3 {
+    color: #444;
+}
+
+/* Home Section */
+#home {
+    text-align: center;
+}
+
+#home h2 {
+    font-size: 30px;
+}
+
+#home p {
+    font-size: 18px;
+}
+
+#home strong {
+    color: #2563eb;
+}
+
+#home img {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Lists */
+ul,
+ol {
+    padding-left: 30px;
+}
+
+li {
+    margin: 8px 0;
+}
+
+/* Registration Form */
+form {
+    max-width: 700px;
+    margin: auto;
+}
+
+label {
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+/* Text Inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+}
+
+/* Input Focus */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+}
+
+/* Radio Buttons and Checkboxes */
+input[type="radio"],
+input[type="checkbox"] {
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+/* Textarea */
+textarea {
+    resize: vertical;
+}
+
+/* Buttons */
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Register Button */
+button[type="submit"] {
+    background-color: #2563eb;
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #1d4ed8;
+}
+
+/* Clear Button */
+button[type="reset"] {
+    background-color: #e5e7eb;
+    color: #333;
+}
+
+button[type="reset"]:hover {
+    background-color: #d1d5db;
+}
+
+/* Course Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th,
+td {
+    padding: 14px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #2563eb;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tr:hover {
+    background-color: #eef4ff;
+}
+
+/* Footer */
+footer {
+    background-color: #1e293b;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+footer h3 {
+    color: #60a5fa;
+}
+
+footer p {
+    margin: 8px 0;
+}
+
+footer a {
+    color: #60a5fa;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+
+    main {
+        width: 95%;
+    }
+
+    section {
+        padding: 20px;
+    }
+
+    #home h2 {
+        font-size: 24px;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        margin-left: 5px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    th,
+    td {
+        padding: 8px;
+    }
+
+    button {
+        margin-bottom: 10px;
+    }
+}
+

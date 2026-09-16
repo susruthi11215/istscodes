@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Registration Form</title>
+</head>
+
+<body>
+
+    <h2>Registration Form</h2>
+
+    <form id="registrationForm" action="/register" method="GET">
+
+        <label>Full Name:</label>
+        <input type="text" id="fullname" name="fullname">
+
+        <br><br>
+
+        <label>Username:</label>
+        <input type="text" id="username" name="username">
+
+        <br><br>
+
+        <label>Email:</label>
+        <input type="email" id="email" name="email">
+
+        <br><br>
+
+        <label>Password:</label>
+        <input type="password" id="password" name="password">
+
+        <br><br>
+
+        <label>Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword">
+
+        <br><br>
+
+        <label>Phone Number:</label>
+        <input type="tel" id="phone" name="phone">
+
+        <br><br>
+
+        <label>Date of Birth:</label>
+        <input type="date" id="dob" name="dob">
+
+        <br><br>
+
+        <label>Gender:</label>
+
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+
+        <input type="radio" id="other" name="gender" value="other">
+        <label for="other">Other</label>
+
+        <br><br>
+
+        <label>Address:</label>
+        <br>
+
+        <textarea id="address" name="address" rows="4" cols="30"></textarea>
+
+        <br><br>
+
+        <label>City:</label>
+        <input type="text" id="city" name="city">
+
+        <br><br>
+
+        <label>State:</label>
+
+        <select id="state" name="state">
+
+            <option value="">-- Select State --</option>
+            <option value="telangana">Telangana</option>
+            <option value="andhra-pradesh">Andhra Pradesh</option>
+            <option value="karnataka">Karnataka</option>
+            <option value="tamil-nadu">Tamil Nadu</option>
+            <option value="kerala">Kerala</option>
+
+        </select>
+
+        <br><br>
+
+        <label>Country:</label>
+
+        <select id="country" name="country">
+
+            <option value="">-- Select Country --</option>
+            <option value="india">India</option>
+            <option value="usa">USA</option>
+            <option value="uk">UK</option>
+            <option value="australia">Australia</option>
+
+        </select>
+
+        <br><br>
+
+        <label>Pincode:</label>
+        <input type="text" id="pincode" name="pincode">
+
+        <br><br>
+
+        <label>Upload Profile Picture:</label>
+        <input type="file" id="profilePicture" name="profilePicture">
+
+        <br><br>
+
+        <label>Hobbies:</label>
+
+        <input type="checkbox" id="reading" name="hobby" value="reading">
+        <label for="reading">Reading</label>
+
+        <input type="checkbox" id="sports" name="hobby" value="sports">
+        <label for="sports">Sports</label>
+
+        <input type="checkbox" id="music" name="hobby" value="music">
+        <label for="music">Music</label>
+
+        <input type="checkbox" id="travel" name="hobby" value="travel">
+        <label for="travel">Travel</label>
+
+        <br><br>
+
+        <input type="checkbox" id="terms" name="terms" value="accepted">
+
+        <label for="terms">
+            I agree to the Terms & Conditions
+        </label>
+
+        <br><br>
+
+        <input type="submit" value="Register">
+
+        <input type="reset" value="Reset">
+
+    </form>
+
+
+    <script>
+
+        document.getElementById("registrationForm")
+            .addEventListener("submit", function(event) {
+
+                // DO NOT use event.preventDefault()
+                // because we want the form to submit using GET
+
+
+                // Get values using getElementById()
+
+                let fullname =
+                    document.getElementById("fullname").value;
+
+                let username =
+                    document.getElementById("username").value;
+
+                let email =
+                    document.getElementById("email").value;
+
+                let password =
+                    document.getElementById("password").value;
+
+                let confirmPassword =
+                    document.getElementById("confirmPassword").value;
+
+                let phone =
+                    document.getElementById("phone").value;
+
+                let dob =
+                    document.getElementById("dob").value;
+
+                let address =
+                    document.getElementById("address").value;
+
+                let city =
+                    document.getElementById("city").value;
+
+                let state =
+                    document.getElementById("state").value;
+
+                let country =
+                    document.getElementById("country").value;
+
+                let pincode =
+                    document.getElementById("pincode").value;
+
+
+                // Print values in console
+
+                console.log("Full Name:", fullname);
+                console.log("Username:", username);
+                console.log("Email:", email);
+                console.log("Password:", password);
+                console.log("Confirm Password:", confirmPassword);
+                console.log("Phone:", phone);
+                console.log("Date of Birth:", dob);
+                console.log("Address:", address);
+                console.log("City:", city);
+                console.log("State:", state);
+                console.log("Country:", country);
+                console.log("Pincode:", pincode);
+
+
+                // Gender
+
+                console.log(
+                    "Male:",
+                    document.getElementById("male").checked
+                );
+
+                console.log(
+                    "Female:",
+                    document.getElementById("female").checked
+                );
+
+                console.log(
+                    "Other:",
+                    document.getElementById("other").checked
+                );
+
+
+                // Hobbies
+
+                console.log(
+                    "Reading:",
+                    document.getElementById("reading").checked
+                );
+
+                console.log(
+                    "Sports:",
+                    document.getElementById("sports").checked
+                );
+
+                console.log(
+                    "Music:",
+                    document.getElementById("music").checked
+                );
+
+                console.log(
+                    "Travel:",
+                    document.getElementById("travel").checked
+                );
+
+
+                // Terms
+
+                console.log(
+                    "Terms:",
+                    document.getElementById("terms").checked
+                );
+
+            });
+
+    </script>
+
+</body>
+
+</html>
+

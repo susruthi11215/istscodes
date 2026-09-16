@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Manipulation</title>
+</head>
+
+<body>
+
+    <h1>Counter</h1>
+
+    <!-- Counter paragraph -->
+    <p class="count">0</p>
+
+    <!-- Increment button -->
+    <button class="btn">Increment</button>
+
+    <hr>
+
+    <!-- Paragraphs for getElementsByTagName() -->
+    <p>Hello</p>
+    <p>Welcome</p>
+    <p>JavaScript</p>
+
+    <!-- Change button -->
+    <button id="btn">Change</button>
+
+
+    <script>
+
+        // ==========================================
+        // 1. getElementsByClassName()
+        // ==========================================
+
+        const count = document.getElementsByClassName("count")[0];
+
+        const button = document.getElementsByClassName("btn")[0];
+
+
+        // ==========================================
+        // 2. Increment Counter
+        // ==========================================
+
+        button.addEventListener("click", function() {
+
+            count.textContent = Number(count.textContent) + 1;
+
+        });
+
+
+        // ==========================================
+        // 3. getElementsByTagName()
+        // ==========================================
+
+        const paragraphs = document.getElementsByTagName("p");
+
+
+        // ==========================================
+        // 4. Print all paragraphs in console
+        // ==========================================
+
+        console.log(paragraphs);
+
+
+        // ==========================================
+        // 5. Print each paragraph separately
+        // ==========================================
+
+        for (let i = 0; i < paragraphs.length; i++) {
+
+            console.log(paragraphs[i].textContent);
+
+        }
+
+
+        // ==========================================
+        // 6. Print index and value
+        // ==========================================
+
+        for (let i = 0; i < paragraphs.length; i++) {
+
+            console.log(i, paragraphs[i].textContent);
+
+        }
+
+
+        // ==========================================
+        // 7. Change Button
+        // ==========================================
+
+        const changeButton = document.getElementById("btn");
+
+
+        changeButton.addEventListener("click", function() {
+
+            paragraphs[1].textContent = "Hello World";
+
+            paragraphs[2].textContent = "Welcome to DOM";
+
+            paragraphs[3].textContent = "JavaScript is Easy";
+
+             for (let i = 0; i < paragraphs.length; i++) {
+                    console.log(i, paragraphs[i].textContent);
+            }
+
+
+        });
+
+    </script>
+
+</body>
+</html>

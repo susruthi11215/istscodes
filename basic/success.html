@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Success</title>
+</head>
+
+<body>
+
+    <h2>Registration Successful</h2>
+
+    <p id="message"></p>
+
+    <script>
+
+        let fullname = window.location.search
+            .split("=")[1];
+
+        document.getElementById("message").innerHTML =
+            fullname + " registered successfully!";
+
+    </script>
+
+</body>
+
+</html>
+

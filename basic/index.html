@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Registration</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Main Content -->
+    <main>
+
+        <!-- Home Section -->
+        <section id="home">
+
+            <h2>Welcome to CodeTantra</h2>
+
+            <p>
+                Learn programming and become a
+                <strong>professional developer</strong>.
+            </p>
+
+            <img src="student.jpg"
+                 alt="Student learning programming"
+                 width="300">
+
+        </section>
+
+
+        <!-- Courses -->
+        <section id="courses">
+
+            <h2>Our Courses</h2>
+
+            <h3>Popular Courses</h3>
+
+            <ul>
+                <li>Java Full Stack</li>
+                <li>Python Full Stack</li>
+                <li>Web Development</li>
+                <li>Data Science</li>
+            </ul>
+
+            <h3>Course Process</h3>
+
+            <ol>
+                <li>Register</li>
+                <li>Attend Classes</li>
+                <li>Complete Projects</li>
+                <li>Get Certified</li>
+            </ol>
+
+        </section>
+
+
+        <!-- Registration Form -->
+        <section id="register">
+
+            <h2>Student Registration</h2>
+
+            <form>
+
+                <label for="name">Full Name:</label>
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Enter your name"
+                    required>
+
+                <br><br>
+
+                <label for="email">Email:</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    required>
+
+                <br><br>
+
+                <label for="password">Password:</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter password">
+
+                <br><br>
+
+                <label>Gender:</label>
+
+                <input type="radio" name="gender" value="male">
+                <span>Male</span>
+
+                <input type="radio" name="gender" value="female">
+                <span>Female</span>
+
+                <br><br>
+
+                <label>Skills:</label>
+
+                <input type="checkbox" name="skill" value="java">
+                <span>Java</span>
+
+                <input type="checkbox" name="skill" value="python">
+                <span>Python</span>
+
+                <input type="checkbox" name="skill" value="javascript">
+                <span>JavaScript</span>
+
+                <br><br>
+
+                <label for="course">Choose Course:</label>
+
+                <select id="course" name="course">
+                    <option value="">Select Course</option>
+                    <option value="java">Java Full Stack</option>
+                    <option value="python">Python Full Stack</option>
+                    <option value="web">Web Development</option>
+                </select>
+
+                <br><br>
+
+                <label for="message">About Yourself:</label>
+
+                <br>
+
+                <textarea
+                    id="message"
+                    rows="5"
+                    cols="40"
+                    placeholder="Tell us about yourself">
+                </textarea>
+
+                <br><br>
+
+                <button type="submit">
+                    Register
+                </button>
+
+                <button type="reset">
+                    Clear
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Course Table -->
+        <section>
+
+            <h2>Course Details</h2>
+
+            <table border="1">
+
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Duration</th>
+                        <th>Mode</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Java Full Stack</td>
+                        <td>6 Months</td>
+                        <td>Online</td>
+                    </tr>
+
+                    <tr>
+                        <td>Python Full Stack</td>
+                        <td>6 Months</td>
+                        <td>Online</td>
+                    </tr>
+
+                    <tr>
+                        <td>Web Development</td>
+                        <td>4 Months</td>
+                        <td>Offline</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer id="contact">
+
+        <h3>Contact Us</h3>
+
+        <p>Email: support@codeacademy.com</p>
+
+        <p>
+            Visit our
+            <a href="#">website</a>
+            for more information.
+        </p>
+
+        <p>&copy; 2026 Code Academy</p>
+
+    </footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

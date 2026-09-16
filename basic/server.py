@@ -4,9 +4,22 @@ import sqlite3
 app = Flask(__name__)
 
 
-# -----------------------------------
-# Create Database and Table
-# -----------------------------------
+# =========================================
+# DATABASE CONNECTION
+# =========================================
+
+def get_database_connection():
+
+    connection = sqlite3.connect("users.db")
+
+    connection.row_factory = sqlite3.Row
+
+    return connection
+
+
+# =========================================
+# CREATE DATABASE AND TABLES
+# =========================================
 
 def create_database():
 
@@ -14,12 +27,48 @@ def create_database():
 
     cursor = connection.cursor()
 
+    # =====================================
+    # USERS TABLE
+    # =====================================
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
+
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+
             fullname TEXT NOT NULL,
+
             username TEXT UNIQUE NOT NULL,
+
             password TEXT NOT NULL
+
+        )
+    """)
+
+
+    # =====================================
+    # EMPLOYEES TABLE
+    # =====================================
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS employees (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            name TEXT NOT NULL,
+
+            email TEXT NOT NULL,
+
+            phone TEXT NOT NULL,
+
+            department TEXT NOT NULL,
+
+            salary INTEGER NOT NULL,
+
+            joining_date TEXT NOT NULL,
+
+            address TEXT
+
         )
     """)
 
@@ -28,9 +77,9 @@ def create_database():
     connection.close()
 
 
-# -----------------------------------
-# Home Page - Navbar
-# -----------------------------------
+# =========================================
+# HOME PAGE
+# =========================================
 
 @app.route("/")
 def home():
@@ -38,9 +87,9 @@ def home():
     return render_template("navbar.html")
 
 
-# -----------------------------------
-# Registration Page - GET
-# -----------------------------------
+# =========================================
+# REGISTER PAGE
+# =========================================
 
 @app.route("/register", methods=["GET"])
 def register_page():
@@ -48,16 +97,19 @@ def register_page():
     return render_template("register2.html")
 
 
-# -----------------------------------
-# Registration Path - POST
-# -----------------------------------
+# =========================================
+# REGISTER
+# =========================================
 
 @app.route("/register", methods=["POST"])
 def register():
 
     fullname = request.form["fullname"]
+
     username = request.form["username"]
+
     password = request.form["password"]
+
 
     connection = sqlite3.connect("users.db")
 
@@ -66,9 +118,15 @@ def register():
     try:
 
         cursor.execute("""
-            INSERT INTO users (fullname, username, password)
+            INSERT INTO users
+            (fullname, username, password)
+
             VALUES (?, ?, ?)
-        """, (fullname, username, password))
+        """, (
+            fullname,
+            username,
+            password
+        ))
 
         connection.commit()
 
@@ -78,17 +136,23 @@ def register():
 
         return """
         <h2>Username already exists!</h2>
-        <a href="/register">Try Again</a>
+
+        <br>
+
+        <a href="/register">
+            Try Again
+        </a>
         """
+
 
     connection.close()
 
     return redirect("/login")
 
 
-# -----------------------------------
-# Login Page - GET
-# -----------------------------------
+# =========================================
+# LOGIN PAGE
+# =========================================
 
 @app.route("/login", methods=["GET"])
 def login_page():
@@ -96,49 +160,303 @@ def login_page():
     return render_template("login.html")
 
 
-# -----------------------------------
-# Login Path - POST
-# -----------------------------------
+# =========================================
+# LOGIN
+# =========================================
 
 @app.route("/login", methods=["POST"])
 def login():
 
     username = request.form["username"]
+
     password = request.form["password"]
+
 
     connection = sqlite3.connect("users.db")
 
     cursor = connection.cursor()
 
     cursor.execute("""
-        SELECT * FROM users
-        WHERE username = ? AND password = ?
-    """, (username, password))
+        SELECT *
+        FROM users
+        WHERE username = ?
+        AND password = ?
+    """, (
+        username,
+        password
+    ))
 
     user = cursor.fetchone()
 
     connection.close()
 
+
     if user:
 
         return """
         <h2>Login successful!</h2>
-        <p>Welcome, """ + username + """!</p>
-        <a href="/">Go to Home</a>
+
+        <p>
+            Welcome, """ + username + """!
+        </p>
+
+        <br>
+
+        <a href="/">
+            Go to Home
+        </a>
+
         """
 
     else:
 
         return """
         <h2>Login failed!</h2>
-        <p>Username or password is incorrect.</p>
-        <a href="/login">Try Again</a>
+
+        <p>
+            Username or password is incorrect.
+        </p>
+
+        <br>
+
+        <a href="/login">
+            Try Again
+        </a>
+
         """
 
 
-# -----------------------------------
-# Start Server
-# -----------------------------------
+# =========================================
+# ADD EMPLOYEE PAGE
+# =========================================
+
+@app.route("/add-employee", methods=["GET"])
+def add_employee_page():
+
+    return render_template("add-employee.html")
+
+
+# =========================================
+# ADD EMPLOYEE
+# =========================================
+
+@app.route("/add-employee", methods=["POST"])
+def add_employee():
+
+    name = request.form["name"]
+
+    email = request.form["email"]
+
+    phone = request.form["phone"]
+
+    department = request.form["department"]
+
+    salary = request.form["salary"]
+
+    joining_date = request.form["joining_date"]
+
+    address = request.form["address"]
+
+
+    connection = sqlite3.connect("users.db")
+
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        INSERT INTO employees
+        (
+            name,
+            email,
+            phone,
+            department,
+            salary,
+            joining_date,
+            address
+        )
+
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+
+    """, (
+        name,
+        email,
+        phone,
+        department,
+        salary,
+        joining_date,
+        address
+    ))
+
+    connection.commit()
+
+    connection.close()
+
+
+    # After adding employee,
+    # go directly to Employees page
+
+    return redirect("/employees")
+
+
+# =========================================
+# EMPLOYEES LIST
+# =========================================
+
+@app.route("/employees")
+def employees():
+
+    connection = get_database_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM employees
+        ORDER BY id DESC
+    """)
+
+    employees = cursor.fetchall()
+
+    connection.close()
+
+    return render_template(
+        "employees.html",
+        employees=employees
+    )
+
+
+# =========================================
+# DELETE EMPLOYEE
+# =========================================
+
+@app.route("/delete-employee/<int:id>")
+def delete_employee(id):
+
+    connection = sqlite3.connect("users.db")
+
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        DELETE FROM employees
+        WHERE id = ?
+    """, (id,))
+
+    connection.commit()
+
+    connection.close()
+
+    return redirect("/employees")
+
+
+# =========================================
+# EDIT EMPLOYEE - DISPLAY FORM
+# =========================================
+
+@app.route("/edit-employee/<int:id>")
+def edit_employee_page(id):
+
+    connection = get_database_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM employees
+        WHERE id = ?
+    """, (id,))
+
+    employee = cursor.fetchone()
+
+    connection.close()
+
+
+    if employee is None:
+
+        return """
+        <h2>Employee not found!</h2>
+
+        <br>
+
+        <a href="/employees">
+            Back to Employees
+        </a>
+        """
+
+
+    return render_template(
+        "edit-employee.html",
+        employee=employee
+    )
+
+
+# =========================================
+# EDIT EMPLOYEE - UPDATE
+# =========================================
+
+@app.route("/edit-employee/<int:id>", methods=["POST"])
+def edit_employee(id):
+
+    name = request.form["name"]
+
+    email = request.form["email"]
+
+    phone = request.form["phone"]
+
+    department = request.form["department"]
+
+    salary = request.form["salary"]
+
+    joining_date = request.form["joining_date"]
+
+    address = request.form["address"]
+
+
+    connection = sqlite3.connect("users.db")
+
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        UPDATE employees
+
+        SET
+
+            name = ?,
+
+            email = ?,
+
+            phone = ?,
+
+            department = ?,
+
+            salary = ?,
+
+            joining_date = ?,
+
+            address = ?
+
+        WHERE id = ?
+
+    """, (
+        name,
+        email,
+        phone,
+        department,
+        salary,
+        joining_date,
+        address,
+        id
+    ))
+
+    connection.commit()
+
+    connection.close()
+
+
+    return redirect("/employees")
+
+
+# =========================================
+# START FLASK SERVER
+# =========================================
 
 if __name__ == "__main__":
 

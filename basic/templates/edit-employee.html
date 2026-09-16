@@ -8,7 +8,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Add Employee</title>
+    <title>Edit Employee</title>
 
     <style>
 
@@ -70,22 +70,6 @@
             color: #00bcd4;
         }
 
-        .login-btn {
-            border: 1px solid #00bcd4;
-
-            padding: 8px 15px;
-
-            border-radius: 5px;
-        }
-
-        .register-btn {
-            background-color: #00bcd4;
-
-            padding: 8px 15px;
-
-            border-radius: 5px;
-        }
-
         /* ================= FORM ================= */
 
         .container {
@@ -108,8 +92,6 @@
             text-align: center;
 
             margin-bottom: 25px;
-
-            color: #222;
         }
 
         label {
@@ -123,7 +105,6 @@
         }
 
         input,
-        select,
         textarea {
             width: 100%;
 
@@ -142,9 +123,9 @@
             resize: vertical;
         }
 
-        /* ================= BUTTONS ================= */
+        /* ================= UPDATE ================= */
 
-        .add-btn {
+        .update-btn {
             width: 100%;
 
             margin-top: 25px;
@@ -164,32 +145,22 @@
             cursor: pointer;
         }
 
-        .add-btn:hover {
+        .update-btn:hover {
             background-color: #0097a7;
         }
 
-        .reset-btn {
-            width: 100%;
+        /* ================= BACK ================= */
 
-            margin-top: 10px;
+        .back-btn {
+            display: block;
 
-            padding: 12px;
+            text-align: center;
 
-            border: none;
+            margin-top: 15px;
 
-            background-color: #777;
+            text-decoration: none;
 
-            color: white;
-
-            font-size: 16px;
-
-            border-radius: 5px;
-
-            cursor: pointer;
-        }
-
-        .reset-btn:hover {
-            background-color: #555;
+            color: #333;
         }
 
     </style>
@@ -230,42 +201,23 @@
                 </a>
             </li>
 
-            <li>
-                <a href="#">
-                    Search
-                </a>
-            </li>
-
-            <li>
-                <a href="/login"
-                   class="login-btn">
-                    Login
-                </a>
-            </li>
-
-            <li>
-                <a href="/register"
-                   class="register-btn">
-                    Register
-                </a>
-            </li>
-
         </ul>
 
     </nav>
 
 
-    <!-- ================= FORM ================= -->
+    <!-- ================= EDIT FORM ================= -->
 
     <div class="container">
 
         <h1>
-            Add Employee
+            Edit Employee
         </h1>
 
 
-        <form action="/add-employee"
-              method="POST">
+        <form
+            action="/edit-employee/{{ employee['id'] }}"
+            method="POST">
 
 
             <label>
@@ -275,7 +227,7 @@
             <input
                 type="text"
                 name="name"
-                placeholder="Enter employee name"
+                value="{{ employee['name'] }}"
                 required>
 
 
@@ -286,7 +238,7 @@
             <input
                 type="email"
                 name="email"
-                placeholder="Enter email"
+                value="{{ employee['email'] }}"
                 required>
 
 
@@ -297,7 +249,7 @@
             <input
                 type="text"
                 name="phone"
-                placeholder="Enter phone number"
+                value="{{ employee['phone'] }}"
                 required>
 
 
@@ -305,34 +257,11 @@
                 Department
             </label>
 
-            <select name="department"
-                    required>
-
-                <option value="">
-                    Select Department
-                </option>
-
-                <option value="HR">
-                    HR
-                </option>
-
-                <option value="IT">
-                    IT
-                </option>
-
-                <option value="Finance">
-                    Finance
-                </option>
-
-                <option value="Marketing">
-                    Marketing
-                </option>
-
-                <option value="Sales">
-                    Sales
-                </option>
-
-            </select>
+            <input
+                type="text"
+                name="department"
+                value="{{ employee['department'] }}"
+                required>
 
 
             <label>
@@ -342,7 +271,7 @@
             <input
                 type="number"
                 name="salary"
-                placeholder="Enter salary"
+                value="{{ employee['salary'] }}"
                 required>
 
 
@@ -353,6 +282,7 @@
             <input
                 type="date"
                 name="joining_date"
+                value="{{ employee['joining_date'] }}"
                 required>
 
 
@@ -362,28 +292,26 @@
 
             <textarea
                 name="address"
-                placeholder="Enter employee address"></textarea>
+                required>{{ employee['address'] }}</textarea>
 
 
             <button
                 type="submit"
-                class="add-btn">
+                class="update-btn">
 
-                Add Employee
-
-            </button>
-
-
-            <button
-                type="reset"
-                class="reset-btn">
-
-                Reset
+                Update Employee
 
             </button>
-
 
         </form>
+
+
+        <a href="/employees"
+           class="back-btn">
+
+            ← Back to Employees
+
+        </a>
 
     </div>
 

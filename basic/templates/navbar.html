@@ -12,6 +12,10 @@
 
     <style>
 
+        /* =========================
+           DEFAULT
+        ========================= */
+
         * {
             margin: 0;
             padding: 0;
@@ -20,30 +24,119 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            min-height: 100vh;
+            transition: background-color 0.3s ease,
+                        color 0.3s ease;
         }
 
-        /* ================= NAVBAR ================= */
+
+        /* =========================
+           LIGHT MODE
+        ========================= */
+
+        body.light {
+            background-color: #f5f5f5;
+            color: #222;
+        }
+
+        body.light .content {
+            background-color: white;
+            color: #222;
+        }
+
+        body.light .content h1 {
+            color: #222;
+        }
+
+        body.light .content p {
+            color: #555;
+        }
+
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        body.dark {
+            background-color: #121212;
+            color: white;
+        }
+
+        body.dark .content {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        body.dark .content h1 {
+            color: white;
+        }
+
+        body.dark .content p {
+            color: #ddd;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
 
         .navbar {
             background-color: #222;
-
             padding: 15px 30px;
 
             display: flex;
-
             align-items: center;
+
+            min-height: 70px;
         }
+
+
+        /* =========================
+           LOGO
+        ========================= */
 
         .logo {
             color: white;
-
             font-size: 22px;
-
             font-weight: bold;
 
             margin-right: auto;
         }
+
+
+        /* =========================
+           THEME BUTTONS
+        ========================= */
+
+        .theme-buttons {
+            display: flex;
+            gap: 10px;
+
+            margin-right: 20px;
+        }
+
+        .theme-buttons a {
+            color: white;
+
+            text-decoration: none;
+
+            border: 1px solid #00bcd4;
+
+            padding: 8px 12px;
+
+            border-radius: 5px;
+
+            font-size: 14px;
+        }
+
+        .theme-buttons a:hover {
+            background-color: #00bcd4;
+        }
+
+
+        /* =========================
+           NAV LINKS
+        ========================= */
 
         .nav-links {
             display: flex;
@@ -67,7 +160,10 @@
             color: #00bcd4;
         }
 
-        /* Login */
+
+        /* =========================
+           LOGIN
+        ========================= */
 
         .login-btn {
             border: 1px solid #00bcd4;
@@ -83,7 +179,10 @@
             color: white !important;
         }
 
-        /* Register */
+
+        /* =========================
+           REGISTER
+        ========================= */
 
         .register-btn {
             background-color: #00bcd4;
@@ -99,23 +198,32 @@
             color: white !important;
         }
 
-        /* ================= CONTENT ================= */
+
+        /* =========================
+           CONTENT
+        ========================= */
 
         .content {
-            padding: 80px 20px;
+            width: 80%;
+
+            margin: 60px auto;
+
+            padding: 60px 30px;
+
+            border-radius: 10px;
 
             text-align: center;
+
+            transition: 0.3s;
         }
 
-        .content h1 {
-            color: #222;
 
+        .content h1 {
             margin-bottom: 20px;
         }
 
-        .content p {
-            color: #555;
 
+        .content p {
             font-size: 18px;
         }
 
@@ -123,93 +231,123 @@
 
 </head>
 
-<body>
+
+<!-- IMPORTANT:
+     Flask sends theme = light/dark
+-->
+
+<body class="{{ theme }}">
 
 
-    <!-- ================= NAVBAR ================= -->
+    <!-- =========================
+         NAVBAR
+    ========================= -->
 
     <nav class="navbar">
 
-        <div class="logo">
 
+        <!-- LOGO -->
+
+        <div class="logo">
             Employee Management System
+        </div>
+
+
+        <!-- THEME BUTTONS -->
+
+        <div class="theme-buttons">
+
+            <a href="/set-theme/light">
+                ☀ Light
+            </a>
+
+            <a href="/set-theme/dark">
+                🌙 Dark
+            </a>
 
         </div>
 
 
+        <!-- NAVIGATION -->
+
         <ul class="nav-links">
 
             <li>
-
                 <a href="/">
                     Home
                 </a>
-
             </li>
 
-
             <li>
-
                 <a href="/employees">
                     Employees
                 </a>
-
             </li>
 
-
             <li>
-
                 <a href="/add-employee">
                     Add Employee
                 </a>
-
             </li>
 
-
             <li>
-
-                <a href="#">
+                <a href="/search">
                     Search
                 </a>
-
             </li>
 
 
-            <li>
+            {% if username %}
 
-                <a href="/login"
-                   class="login-btn">
+                <li>
+                    <a href="/logout">
+                        Logout
+                    </a>
+                </li>
 
-                    Login
+            {% else %}
 
-                </a>
+                <li>
+                    <a href="/login"
+                       class="login-btn">
+                        Login
+                    </a>
+                </li>
 
-            </li>
+                <li>
+                    <a href="/register"
+                       class="register-btn">
+                        Register
+                    </a>
+                </li>
 
-
-            <li>
-
-                <a href="/register"
-                   class="register-btn">
-
-                    Register
-
-                </a>
-
-            </li>
+            {% endif %}
 
         </ul>
 
     </nav>
 
 
-    <!-- ================= HOME ================= -->
+    <!-- =========================
+         CONTENT
+    ========================= -->
 
     <div class="content">
 
-        <h1>
-            Welcome to Employee Management System
-        </h1>
+        {% if fullname %}
+
+            <h1>
+                Welcome, {{ fullname }}!
+            </h1>
+
+        {% else %}
+
+            <h1>
+                Welcome to Employee Management System
+            </h1>
+
+        {% endif %}
+
 
         <p>
             Manage your employees easily.

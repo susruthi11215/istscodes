@@ -10,7 +10,12 @@
 
     <title>Edit Employee</title>
 
+
     <style>
+
+        /* =========================
+           RESET
+        ========================= */
 
         * {
             margin: 0;
@@ -18,239 +23,696 @@
             box-sizing: border-box;
         }
 
+
+        /* =========================
+           BODY
+        ========================= */
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+
+            min-height: 100vh;
+
+            transition:
+                background-color 0.3s,
+                color 0.3s;
         }
 
-        /* ================= NAVBAR ================= */
+
+        /* =========================
+           LIGHT THEME
+        ========================= */
+
+        body.light {
+            background-color: #f5f5f5;
+
+            color: #222;
+        }
+
+        body.light .container {
+            background-color: white;
+
+            color: #222;
+        }
+
+        body.light h1 {
+            color: #222;
+        }
+
+        body.light input,
+        body.light textarea {
+            background-color: white;
+
+            color: #222;
+
+            border: 1px solid #ccc;
+        }
+
+
+        /* =========================
+           DARK THEME
+        ========================= */
+
+        body.dark {
+            background-color: #121212;
+
+            color: white;
+        }
+
+        body.dark .container {
+            background-color: #1e1e1e;
+
+            color: white;
+
+            box-shadow:
+                0 2px 10px rgba(255, 255, 255, 0.08);
+        }
+
+        body.dark h1 {
+            color: white;
+        }
+
+        body.dark label {
+            color: white;
+        }
+
+        body.dark input,
+        body.dark textarea {
+            background-color: #2b2b2b;
+
+            color: white;
+
+            border: 1px solid #555;
+        }
+
+        body.dark input::placeholder,
+        body.dark textarea::placeholder {
+            color: #aaa;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
 
         .navbar {
             background-color: #222;
+
             padding: 15px 30px;
+
             display: flex;
+
             align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 15px;
         }
+
+
+        /* =========================
+           LOGO
+        ========================= */
 
         .logo {
             color: white;
+
             font-size: 22px;
+
             font-weight: bold;
+
             margin-right: auto;
         }
 
+
+        /* =========================
+           THEME BUTTONS
+        ========================= */
+
+        .theme-buttons {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-right: 5px;
+        }
+
+        .theme-buttons a {
+            color: white;
+
+            text-decoration: none;
+
+            border: 1px solid #00bcd4;
+
+            padding: 8px 12px;
+
+            border-radius: 5px;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        .theme-buttons a:hover {
+            background-color: #00bcd4;
+
+            color: white;
+        }
+
+
+        /* =========================
+           NAV LINKS
+        ========================= */
+
         .nav-links {
             display: flex;
+
             align-items: center;
+
             list-style: none;
+
             gap: 20px;
+
+            flex-wrap: wrap;
         }
 
         .nav-links a {
             color: white;
+
             text-decoration: none;
+
             font-size: 16px;
+
+            transition: 0.3s;
         }
 
         .nav-links a:hover {
             color: #00bcd4;
         }
 
-        /* ================= FORM ================= */
+
+        /* =========================
+           FORM CONTAINER
+        ========================= */
 
         .container {
             width: 600px;
+
             max-width: 90%;
+
             margin: 40px auto;
-            background-color: white;
+
             padding: 30px;
+
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.1);
+
+            transition:
+                background-color 0.3s,
+                color 0.3s;
         }
+
+
+        /* =========================
+           HEADING
+        ========================= */
 
         h1 {
             text-align: center;
+
             margin-bottom: 25px;
         }
 
+
+        /* =========================
+           LABEL
+        ========================= */
+
         label {
             display: block;
+
             margin-top: 15px;
+
             margin-bottom: 5px;
+
             font-weight: bold;
         }
+
+
+        /* =========================
+           INPUTS
+        ========================= */
 
         input,
         textarea {
             width: 100%;
+
             padding: 10px;
-            border: 1px solid #ccc;
+
             border-radius: 5px;
+
             font-size: 15px;
+
+            outline: none;
+
+            transition:
+                background-color 0.3s,
+                color 0.3s,
+                border-color 0.3s;
         }
+
+        input:focus,
+        textarea:focus {
+            border-color: #00bcd4;
+        }
+
+
+        /* =========================
+           TEXTAREA
+        ========================= */
 
         textarea {
             height: 100px;
+
             resize: vertical;
         }
 
-        /* ================= UPDATE BUTTON ================= */
+
+        /* =========================
+           UPDATE BUTTON
+        ========================= */
 
         .update-btn {
             width: 100%;
+
             margin-top: 25px;
+
             padding: 12px;
+
             border: none;
+
             background-color: #00bcd4;
+
             color: white;
+
             font-size: 16px;
+
             border-radius: 5px;
+
             cursor: pointer;
+
+            transition: 0.3s;
         }
 
         .update-btn:hover {
             background-color: #0097a7;
         }
 
-        /* ================= BACK BUTTON ================= */
+
+        /* =========================
+           BACK BUTTON
+        ========================= */
 
         .back-btn {
             display: block;
+
             text-align: center;
+
             margin-top: 15px;
+
             text-decoration: none;
+
             color: #333;
+
+            transition: 0.3s;
         }
 
         .back-btn:hover {
             color: #00bcd4;
         }
 
+
+        /* Dark Mode Back Button */
+
+        body.dark .back-btn {
+            color: #ddd;
+        }
+
+        body.dark .back-btn:hover {
+            color: #00bcd4;
+        }
+
+
+        /* =========================
+           MOBILE RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                flex-direction: column;
+
+                justify-content: center;
+
+                text-align: center;
+            }
+
+            .logo {
+                margin-right: 0;
+            }
+
+            .theme-buttons {
+                margin-right: 0;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+
+                max-width: 95%;
+
+                margin: 25px auto;
+
+                padding: 20px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .theme-buttons a {
+                font-size: 13px;
+
+                padding: 7px 10px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+        }
+
     </style>
 
 </head>
 
-<body>
 
-    <!-- ================= NAVBAR ================= -->
+<!-- =========================
+     BODY
+========================= -->
+
+<body class="{{ theme }}">
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
 
     <nav class="navbar">
 
+
+        <!-- LOGO -->
+
         <div class="logo">
+
             Employee Management System
+
         </div>
+
+
+        <!-- =========================
+             THEME BUTTONS
+        ========================= -->
+
+        <div class="theme-buttons">
+
+            <a href="/set-theme/light">
+
+                ☀ Light
+
+            </a>
+
+
+            <a href="/set-theme/dark">
+
+                🌙 Dark
+
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             NAVIGATION
+        ========================= -->
 
         <ul class="nav-links">
 
+
+            <!-- HOME -->
+
             <li>
+
                 <a href="/">
+
                     Home
+
                 </a>
+
             </li>
 
+
+            <!-- EMPLOYEES -->
+
             <li>
+
                 <a href="/employees">
+
                     Employees
+
                 </a>
+
             </li>
 
+
+            <!-- ADD EMPLOYEE -->
+
             <li>
+
                 <a href="/add-employee">
+
                     Add Employee
+
                 </a>
+
             </li>
+
+
+            <!-- SEARCH -->
+
+            <li>
+
+                <a href="/search">
+
+                    Search
+
+                </a>
+
+            </li>
+
+
+            <!-- LOGIN / LOGOUT -->
+
+            {% if username %}
+
+                <li>
+
+                    <a href="/logout">
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            {% else %}
+
+                <li>
+
+                    <a href="/login">
+
+                        Login
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="/register">
+
+                        Register
+
+                    </a>
+
+                </li>
+
+            {% endif %}
+
 
         </ul>
 
     </nav>
 
 
-    <!-- ================= EDIT FORM ================= -->
+    <!-- =========================
+         EDIT FORM
+    ========================= -->
 
     <div class="container">
 
+
         <h1>
+
             Edit Employee
+
         </h1>
+
 
         <form
             action="/edit-employee/{{ employee['id'] }}"
             method="POST">
 
-            <label>
+
+            <!-- Employee Name -->
+
+            <label for="name">
+
                 Employee Name
+
             </label>
 
             <input
                 type="text"
+                id="name"
                 name="name"
                 value="{{ employee['name'] }}"
                 required>
 
 
-            <label>
+            <!-- Email -->
+
+            <label for="email">
+
                 Email
+
             </label>
 
             <input
                 type="email"
+                id="email"
                 name="email"
                 value="{{ employee['email'] }}"
                 required>
 
 
-            <label>
+            <!-- Phone -->
+
+            <label for="phone">
+
                 Phone
+
             </label>
 
             <input
                 type="text"
+                id="phone"
                 name="phone"
                 value="{{ employee['phone'] }}"
                 required>
 
 
-            <label>
+            <!-- Department -->
+
+            <label for="department">
+
                 Department
+
             </label>
 
             <input
                 type="text"
+                id="department"
                 name="department"
                 value="{{ employee['department'] }}"
                 required>
 
 
-            <label>
+            <!-- Salary -->
+
+            <label for="salary">
+
                 Salary
+
             </label>
 
             <input
                 type="number"
+                id="salary"
                 name="salary"
                 value="{{ employee['salary'] }}"
+                min="0"
                 required>
 
 
-            <label>
+            <!-- Joining Date -->
+
+            <label for="joining_date">
+
                 Joining Date
+
             </label>
 
             <input
                 type="date"
+                id="joining_date"
                 name="joining_date"
                 value="{{ employee['joining_date'] }}"
                 required>
 
 
-            <label>
+            <!-- Address -->
+
+            <label for="address">
+
                 Address
+
             </label>
 
             <textarea
+                id="address"
                 name="address"
                 required>{{ employee['address'] or '' }}</textarea>
 
+
+            <!-- Update Button -->
 
             <button
                 type="submit"
@@ -260,8 +722,11 @@
 
             </button>
 
+
         </form>
 
+
+        <!-- Back Button -->
 
         <a href="/employees"
            class="back-btn">
@@ -270,7 +735,9 @@
 
         </a>
 
+
     </div>
+
 
 </body>
 

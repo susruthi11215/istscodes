@@ -12,21 +12,102 @@
 
     <style>
 
+        /* =========================
+           RESET
+        ========================= */
+
         * {
             margin: 0;
-
             padding: 0;
-
             box-sizing: border-box;
         }
 
+
+        /* =========================
+           BODY
+        ========================= */
+
         body {
             font-family: Arial, sans-serif;
-
-            background-color: #f5f5f5;
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
         }
 
-        /* ================= NAVBAR ================= */
+
+        /* =========================
+           LIGHT MODE
+        ========================= */
+
+        body.light {
+            background-color: #f5f5f5;
+            color: #222;
+        }
+
+        body.light .container {
+            background-color: white;
+            color: #222;
+        }
+
+        body.light h1 {
+            color: #222;
+        }
+
+        body.light input,
+        body.light select,
+        body.light textarea {
+            background-color: white;
+            color: #222;
+            border: 1px solid #ccc;
+        }
+
+
+        /* =========================
+           DARK MODE
+        ========================= */
+
+        body.dark {
+            background-color: #121212;
+            color: white;
+        }
+
+        body.dark .container {
+            background-color: #1e1e1e;
+            color: white;
+
+            box-shadow:
+                0 2px 10px rgba(255, 255, 255, 0.08);
+        }
+
+        body.dark h1 {
+            color: white;
+        }
+
+        body.dark label {
+            color: white;
+        }
+
+        body.dark input,
+        body.dark select,
+        body.dark textarea {
+            background-color: #2b2b2b;
+            color: white;
+            border: 1px solid #555;
+        }
+
+        body.dark input::placeholder,
+        body.dark textarea::placeholder {
+            color: #aaa;
+        }
+
+        body.dark option {
+            background-color: #2b2b2b;
+            color: white;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
 
         .navbar {
             background-color: #222;
@@ -36,7 +117,16 @@
             display: flex;
 
             align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 15px;
         }
+
+
+        /* =========================
+           LOGO
+        ========================= */
 
         .logo {
             color: white;
@@ -48,6 +138,48 @@
             margin-right: auto;
         }
 
+
+        /* =========================
+           THEME BUTTONS
+        ========================= */
+
+        .theme-buttons {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-right: 5px;
+        }
+
+        .theme-buttons a {
+            color: white;
+
+            text-decoration: none;
+
+            border: 1px solid #00bcd4;
+
+            padding: 8px 12px;
+
+            border-radius: 5px;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        .theme-buttons a:hover {
+            background-color: #00bcd4;
+
+            color: white;
+        }
+
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
         .nav-links {
             display: flex;
 
@@ -56,6 +188,8 @@
             list-style: none;
 
             gap: 20px;
+
+            flex-wrap: wrap;
         }
 
         .nav-links a {
@@ -64,11 +198,18 @@
             text-decoration: none;
 
             font-size: 16px;
+
+            transition: 0.3s;
         }
 
         .nav-links a:hover {
             color: #00bcd4;
         }
+
+
+        /* =========================
+           LOGIN BUTTON
+        ========================= */
 
         .login-btn {
             border: 1px solid #00bcd4;
@@ -78,6 +219,17 @@
             border-radius: 5px;
         }
 
+        .login-btn:hover {
+            background-color: #00bcd4;
+
+            color: white !important;
+        }
+
+
+        /* =========================
+           REGISTER BUTTON
+        ========================= */
+
         .register-btn {
             background-color: #00bcd4;
 
@@ -86,7 +238,16 @@
             border-radius: 5px;
         }
 
-        /* ================= FORM ================= */
+        .register-btn:hover {
+            background-color: #0097a7;
+
+            color: white !important;
+        }
+
+
+        /* =========================
+           FORM CONTAINER
+        ========================= */
 
         .container {
             width: 600px;
@@ -95,22 +256,33 @@
 
             margin: 40px auto;
 
-            background-color: white;
-
             padding: 30px;
 
             border-radius: 10px;
 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.1);
+
+            transition:
+                background-color 0.3s,
+                color 0.3s;
         }
+
+
+        /* =========================
+           HEADING
+        ========================= */
 
         h1 {
             text-align: center;
 
             margin-bottom: 25px;
-
-            color: #222;
         }
+
+
+        /* =========================
+           LABEL
+        ========================= */
 
         label {
             display: block;
@@ -122,6 +294,11 @@
             font-weight: bold;
         }
 
+
+        /* =========================
+           INPUT / SELECT / TEXTAREA
+        ========================= */
+
         input,
         select,
         textarea {
@@ -129,12 +306,28 @@
 
             padding: 10px;
 
-            border: 1px solid #ccc;
-
             border-radius: 5px;
 
             font-size: 15px;
+
+            outline: none;
+
+            transition:
+                background-color 0.3s,
+                color 0.3s,
+                border-color 0.3s;
         }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #00bcd4;
+        }
+
+
+        /* =========================
+           TEXTAREA
+        ========================= */
 
         textarea {
             height: 100px;
@@ -142,7 +335,10 @@
             resize: vertical;
         }
 
-        /* ================= BUTTONS ================= */
+
+        /* =========================
+           ADD BUTTON
+        ========================= */
 
         .add-btn {
             width: 100%;
@@ -162,11 +358,18 @@
             border-radius: 5px;
 
             cursor: pointer;
+
+            transition: 0.3s;
         }
 
         .add-btn:hover {
             background-color: #0097a7;
         }
+
+
+        /* =========================
+           RESET BUTTON
+        ========================= */
 
         .reset-btn {
             width: 100%;
@@ -186,22 +389,96 @@
             border-radius: 5px;
 
             cursor: pointer;
+
+            transition: 0.3s;
         }
 
         .reset-btn:hover {
             background-color: #555;
         }
 
+
+        /* =========================
+           MOBILE RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                flex-direction: column;
+
+                justify-content: center;
+
+                text-align: center;
+            }
+
+            .logo {
+                margin-right: 0;
+            }
+
+            .theme-buttons {
+                margin-right: 0;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+
+                max-width: 95%;
+
+                margin: 25px auto;
+
+                padding: 20px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .theme-buttons a {
+                font-size: 13px;
+
+                padding: 7px 10px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+        }
+
     </style>
 
 </head>
 
-<body>
+
+<!-- =========================
+     BODY
+========================= -->
+
+<body class="{{ theme }}">
 
 
-    <!-- ================= NAVBAR ================= -->
+    <!-- =========================
+         NAVBAR
+    ========================= -->
 
     <nav class="navbar">
+
+
+        <!-- LOGO -->
 
         <div class="logo">
 
@@ -210,57 +487,147 @@
         </div>
 
 
+        <!-- =========================
+             THEME BUTTONS
+        ========================= -->
+
+        <div class="theme-buttons">
+
+            <a href="/set-theme/light">
+
+                ☀ Light
+
+            </a>
+
+
+            <a href="/set-theme/dark">
+
+                🌙 Dark
+
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             NAVIGATION
+        ========================= -->
+
         <ul class="nav-links">
 
+
+            <!-- HOME -->
+
             <li>
+
                 <a href="/">
+
                     Home
+
                 </a>
+
             </li>
 
+
+            <!-- EMPLOYEES -->
+
             <li>
+
                 <a href="/employees">
+
                     Employees
+
                 </a>
+
             </li>
 
+
+            <!-- ADD EMPLOYEE -->
+
             <li>
+
                 <a href="/add-employee">
+
                     Add Employee
+
                 </a>
+
             </li>
 
+
+            <!-- SEARCH -->
+
             <li>
-                <a href="#">
+
+                <a href="/search">
+
                     Search
+
                 </a>
+
             </li>
 
-            <li>
-                <a href="/login"
-                   class="login-btn">
-                    Login
-                </a>
-            </li>
 
-            <li>
-                <a href="/register"
-                   class="register-btn">
-                    Register
-                </a>
-            </li>
+            <!-- =========================
+                 LOGIN / LOGOUT
+            ========================= -->
+
+            {% if username %}
+
+                <li>
+
+                    <a href="/logout">
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            {% else %}
+
+                <li>
+
+                    <a href="/login"
+                       class="login-btn">
+
+                        Login
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="/register"
+                       class="register-btn">
+
+                        Register
+
+                    </a>
+
+                </li>
+
+            {% endif %}
+
 
         </ul>
 
     </nav>
 
 
-    <!-- ================= FORM ================= -->
+    <!-- =========================
+         ADD EMPLOYEE FORM
+    ========================= -->
 
     <div class="container">
 
+
         <h1>
+
             Add Employee
+
         </h1>
 
 
@@ -268,103 +635,169 @@
               method="POST">
 
 
-            <label>
+            <!-- =========================
+                 EMPLOYEE NAME
+            ========================= -->
+
+            <label for="name">
+
                 Employee Name
+
             </label>
 
             <input
                 type="text"
+                id="name"
                 name="name"
                 placeholder="Enter employee name"
                 required>
 
 
-            <label>
+            <!-- =========================
+                 EMAIL
+            ========================= -->
+
+            <label for="email">
+
                 Email
+
             </label>
 
             <input
                 type="email"
+                id="email"
                 name="email"
                 placeholder="Enter email"
                 required>
 
 
-            <label>
+            <!-- =========================
+                 PHONE
+            ========================= -->
+
+            <label for="phone">
+
                 Phone
+
             </label>
 
             <input
                 type="tel"
+                id="phone"
                 name="phone"
                 placeholder="Enter phone number"
                 required>
 
 
-            <label>
+            <!-- =========================
+                 DEPARTMENT
+            ========================= -->
+
+            <label for="department">
+
                 Department
+
             </label>
 
-            <select name="department"
-                    required>
+            <select
+                id="department"
+                name="department"
+                required>
 
                 <option value="">
+
                     Select Department
+
                 </option>
 
                 <option value="HR">
+
                     HR
+
                 </option>
 
                 <option value="IT">
+
                     IT
+
                 </option>
 
                 <option value="Finance">
+
                     Finance
+
                 </option>
 
                 <option value="Marketing">
+
                     Marketing
+
                 </option>
 
                 <option value="Sales">
+
                     Sales
+
                 </option>
 
             </select>
 
 
-            <label>
+            <!-- =========================
+                 SALARY
+            ========================= -->
+
+            <label for="salary">
+
                 Salary
+
             </label>
 
             <input
                 type="number"
+                id="salary"
                 name="salary"
                 placeholder="Enter salary"
+                min="0"
                 required>
 
 
-            <label>
+            <!-- =========================
+                 JOINING DATE
+            ========================= -->
+
+            <label for="joining_date">
+
                 Joining Date
+
             </label>
 
             <input
                 type="date"
+                id="joining_date"
                 name="joining_date"
                 required>
 
 
-            <label>
+            <!-- =========================
+                 ADDRESS
+            ========================= -->
+
+            <label for="address">
+
                 Address
+
             </label>
 
             <textarea
+                id="address"
                 name="address"
-                placeholder="Enter employee address">
-            </textarea>
+                placeholder="Enter employee address"></textarea>
 
+
+            <!-- =========================
+                 ADD EMPLOYEE BUTTON
+            ========================= -->
 
             <button
                 type="submit"
@@ -374,6 +807,10 @@
 
             </button>
 
+
+            <!-- =========================
+                 RESET BUTTON
+            ========================= -->
 
             <button
                 type="reset"
@@ -392,3 +829,4 @@
 </body>
 
 </html>
+

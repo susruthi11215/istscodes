@@ -9,7 +9,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-# Secret key for session
 app.secret_key = "employee-management-secret-key"
 
 
@@ -27,7 +26,7 @@ def get_database_connection():
 
 
 # =========================================
-# CREATE DATABASE AND TABLES
+# CREATE DATABASE
 # =========================================
 
 def create_database():
@@ -42,18 +41,12 @@ def create_database():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
-
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-
             fullname TEXT NOT NULL,
-
             username TEXT UNIQUE NOT NULL,
-
             password TEXT NOT NULL
-
         )
     """)
-
 
     # =====================================
     # EMPLOYEES TABLE
@@ -61,35 +54,33 @@ def create_database():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS employees (
-
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-
             name TEXT NOT NULL,
-
             email TEXT NOT NULL,
-
             phone TEXT NOT NULL,
-
             department TEXT NOT NULL,
-
             salary INTEGER NOT NULL,
-
             joining_date TEXT NOT NULL,
-
             address TEXT
-
         )
     """)
-
 
     connection.commit()
 
     connection.close()
 
     print("=================================")
-    print("Database created successfully!")
-    print("Tables created successfully!")
+    print("Database ready")
     print("=================================")
+
+
+# =========================================
+# LOGIN CHECK
+# =========================================
+
+def login_required():
+
+    return "user_id" in session
 
 
 # =========================================
@@ -99,28 +90,20 @@ def create_database():
 @app.route("/set-theme/<theme>")
 def set_theme(theme):
 
-    # Only allow light and dark
     if theme not in ["light", "dark"]:
-
         theme = "light"
 
-
-    # Go back to the previous page
     previous_page = request.referrer or "/"
-
 
     response = make_response(
         redirect(previous_page)
     )
 
-
-    # Store theme in browser cookie
     response.set_cookie(
         "theme",
         theme,
         max_age=60 * 60 * 24 * 365
     )
-
 
     return response
 
@@ -132,31 +115,24 @@ def set_theme(theme):
 @app.route("/")
 def home():
 
-    # Get theme from cookie
+    # User must login first
+
+    if not login_required():
+        return redirect("/login")
+
     theme = request.cookies.get(
         "theme",
         "light"
     )
 
+    username = session.get("username")
 
-    # Get logged-in user
-    username = session.get(
-        "username"
-    )
-
-
-    fullname = session.get(
-        "fullname"
-    )
-
+    fullname = session.get("fullname")
 
     return render_template(
         "navbar.html",
-
         theme=theme,
-
         username=username,
-
         fullname=fullname
     )
 
@@ -165,10 +141,7 @@ def home():
 # REGISTER PAGE
 # =========================================
 
-@app.route(
-    "/register",
-    methods=["GET"]
-)
+@app.route("/register", methods=["GET"])
 def register_page():
 
     theme = request.cookies.get(
@@ -176,10 +149,8 @@ def register_page():
         "light"
     )
 
-
     return render_template(
         "register2.html",
-
         theme=theme
     )
 
@@ -188,10 +159,7 @@ def register_page():
 # REGISTER USER
 # =========================================
 
-@app.route(
-    "/register",
-    methods=["POST"]
-)
+@app.route("/register", methods=["POST"])
 def register():
 
     fullname = request.form.get(
@@ -199,18 +167,15 @@ def register():
         ""
     ).strip()
 
-
     username = request.form.get(
         "username",
         ""
     ).strip()
 
-
     password = request.form.get(
         "password",
         ""
     )
-
 
     # =====================================
     # VALIDATION
@@ -218,42 +183,36 @@ def register():
 
     if not fullname:
 
-        return """
-        <h2>Full name is required!</h2>
-
-        <br>
-
-        <a href="/register">
-            Try Again
-        </a>
-        """
-
+        return render_template(
+            "register2.html",
+            theme=request.cookies.get(
+                "theme",
+                "light"
+            ),
+            error="Full name is required."
+        )
 
     if not username:
 
-        return """
-        <h2>Username is required!</h2>
-
-        <br>
-
-        <a href="/register">
-            Try Again
-        </a>
-        """
-
+        return render_template(
+            "register2.html",
+            theme=request.cookies.get(
+                "theme",
+                "light"
+            ),
+            error="Username is required."
+        )
 
     if not password:
 
-        return """
-        <h2>Password is required!</h2>
-
-        <br>
-
-        <a href="/register">
-            Try Again
-        </a>
-        """
-
+        return render_template(
+            "register2.html",
+            theme=request.cookies.get(
+                "theme",
+                "light"
+            ),
+            error="Password is required."
+        )
 
     # =====================================
     # HASH PASSWORD
@@ -263,15 +222,13 @@ def register():
         password
     )
 
-
     # =====================================
-    # DATABASE
+    # INSERT USER
     # =====================================
 
     connection = get_database_connection()
 
     cursor = connection.cursor()
-
 
     try:
 
@@ -290,32 +247,24 @@ def register():
             hashed_password
         ))
 
-
         connection.commit()
-
 
     except sqlite3.IntegrityError:
 
         connection.close()
 
-
-        return """
-        <h2>Username already exists!</h2>
-
-        <p>
-            Please choose another username.
-        </p>
-
-        <br>
-
-        <a href="/register">
-            Try Again
-        </a>
-        """
-
+        return render_template(
+            "register2.html",
+            theme=request.cookies.get(
+                "theme",
+                "light"
+            ),
+            error="Username already exists."
+        )
 
     connection.close()
 
+    # Go to login page
 
     return redirect("/login")
 
@@ -324,21 +273,23 @@ def register():
 # LOGIN PAGE
 # =========================================
 
-@app.route(
-    "/login",
-    methods=["GET"]
-)
+@app.route("/login", methods=["GET"])
 def login_page():
+
+    # If already logged in,
+    # go directly to home
+
+    if "user_id" in session:
+
+        return redirect("/")
 
     theme = request.cookies.get(
         "theme",
         "light"
     )
 
-
     return render_template(
         "login.html",
-
         theme=theme
     )
 
@@ -347,35 +298,57 @@ def login_page():
 # LOGIN USER
 # =========================================
 
-@app.route(
-    "/login",
-    methods=["POST"]
-)
+@app.route("/login", methods=["POST"])
 def login():
+
+    # =====================================
+    # GET FORM VALUES
+    # =====================================
 
     username = request.form.get(
         "username",
         ""
     ).strip()
 
-
     password = request.form.get(
         "password",
         ""
     )
 
+    print("=================================")
+    print("LOGIN ATTEMPT")
+    print("Username:", username)
+    print("=================================")
 
     # =====================================
-    # DATABASE
+    # VALIDATION
+    # =====================================
+
+    if not username or not password:
+
+        return render_template(
+            "login.html",
+            theme=request.cookies.get(
+                "theme",
+                "light"
+            ),
+            error="Username and password are required."
+        )
+
+    # =====================================
+    # FIND USER
     # =====================================
 
     connection = get_database_connection()
 
     cursor = connection.cursor()
 
-
     cursor.execute("""
-        SELECT *
+        SELECT
+            id,
+            fullname,
+            username,
+            password
         FROM users
         WHERE username = ?
     """,
@@ -383,53 +356,74 @@ def login():
         username,
     ))
 
-
     user = cursor.fetchone()
-
 
     connection.close()
 
+    # =====================================
+    # USER NOT FOUND
+    # =====================================
+
+    if user is None:
+
+        print("User not found")
+
+        return render_template(
+            "login.html",
+            theme=request.cookies.get(
+                "theme",
+                "light"
+            ),
+            error="Username or password is incorrect."
+        )
 
     # =====================================
-    # CHECK LOGIN
+    # CHECK PASSWORD
     # =====================================
 
-    if user and check_password_hash(
+    password_correct = check_password_hash(
         user["password"],
         password
-    ):
+    )
 
+    if not password_correct:
 
-        # Store user information
-        # in session
+        print("Incorrect password")
 
-        session["user_id"] = user["id"]
-
-        session["username"] = user["username"]
-
-        session["fullname"] = user["fullname"]
-
-
-        return redirect("/")
-
+        return render_template(
+            "login.html",
+            theme=request.cookies.get(
+                "theme",
+                "light"
+            ),
+            error="Username or password is incorrect."
+        )
 
     # =====================================
-    # LOGIN FAILED
+    # LOGIN SUCCESS
     # =====================================
 
-    return """
-    <h2>Login failed!</h2>
+    print("Login successful!")
+    print("User ID:", user["id"])
+    print("Username:", user["username"])
 
-    <p>
-        Username or password is incorrect.
-    </p>
+    # Clear old session
 
-    <br>
+    session.clear()
 
-    <a href="/login">
-        Try Again
-    </a>
-    """
+    # Store current user
+
+    session["user_id"] = user["id"]
+
+    session["username"] = user["username"]
+
+    session["fullname"] = user["fullname"]
+
+    # =====================================
+    # REDIRECT TO HOME
+    # =====================================
+
+    return redirect("/")
 
 
 # =========================================
@@ -439,32 +433,29 @@ def login():
 @app.route("/logout")
 def logout():
 
-    # Remove session data
     session.clear()
 
-
-    return redirect("/")
+    return redirect("/login")
 
 
 # =========================================
 # ADD EMPLOYEE PAGE
 # =========================================
 
-@app.route(
-    "/add-employee",
-    methods=["GET"]
-)
+@app.route("/add-employee", methods=["GET"])
 def add_employee_page():
+
+    if not login_required():
+
+        return redirect("/login")
 
     theme = request.cookies.get(
         "theme",
         "light"
     )
 
-
     return render_template(
         "add-employee.html",
-
         theme=theme
     )
 
@@ -473,139 +464,65 @@ def add_employee_page():
 # ADD EMPLOYEE
 # =========================================
 
-@app.route(
-    "/add-employee",
-    methods=["POST"]
-)
+@app.route("/add-employee", methods=["POST"])
 def add_employee():
+
+    if not login_required():
+
+        return redirect("/login")
 
     name = request.form.get(
         "name",
         ""
     ).strip()
 
-
     email = request.form.get(
         "email",
         ""
     ).strip()
-
 
     phone = request.form.get(
         "phone",
         ""
     ).strip()
 
-
     department = request.form.get(
         "department",
         ""
     ).strip()
-
 
     salary = request.form.get(
         "salary",
         ""
     ).strip()
 
-
     joining_date = request.form.get(
         "joining_date",
         ""
     ).strip()
-
 
     address = request.form.get(
         "address",
         ""
     ).strip()
 
-
-    # =====================================
-    # VALIDATION
-    # =====================================
-
     if not name:
-
-        return """
-        <h2>Name is required!</h2>
-
-        <br>
-
-        <a href="/add-employee">
-            Go Back
-        </a>
-        """
-
+        return "Name is required!"
 
     if not email:
-
-        return """
-        <h2>Email is required!</h2>
-
-        <br>
-
-        <a href="/add-employee">
-            Go Back
-        </a>
-        """
-
+        return "Email is required!"
 
     if not phone:
-
-        return """
-        <h2>Phone is required!</h2>
-
-        <br>
-
-        <a href="/add-employee">
-            Go Back
-        </a>
-        """
-
+        return "Phone is required!"
 
     if not department:
-
-        return """
-        <h2>Department is required!</h2>
-
-        <br>
-
-        <a href="/add-employee">
-            Go Back
-        </a>
-        """
-
+        return "Department is required!"
 
     if not salary:
-
-        return """
-        <h2>Salary is required!</h2>
-
-        <br>
-
-        <a href="/add-employee">
-            Go Back
-        </a>
-        """
-
+        return "Salary is required!"
 
     if not joining_date:
-
-        return """
-        <h2>Joining date is required!</h2>
-
-        <br>
-
-        <a href="/add-employee">
-            Go Back
-        </a>
-        """
-
-
-    # =====================================
-    # CONVERT SALARY
-    # =====================================
+        return "Joining date is required!"
 
     try:
 
@@ -613,41 +530,14 @@ def add_employee():
 
     except ValueError:
 
-        return """
-        <h2>Salary must be a number!</h2>
-
-        <br>
-
-        <a href="/add-employee">
-            Go Back
-        </a>
-        """
-
-
-    # =====================================
-    # DATABASE
-    # =====================================
+        return "Salary must be a number!"
 
     connection = get_database_connection()
 
     cursor = connection.cursor()
 
-
-    try:
-
-        cursor.execute("""
-            INSERT INTO employees
-            (
-                name,
-                email,
-                phone,
-                department,
-                salary,
-                joining_date,
-                address
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """,
+    cursor.execute("""
+        INSERT INTO employees
         (
             name,
             email,
@@ -656,57 +546,40 @@ def add_employee():
             salary,
             joining_date,
             address
-        ))
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """,
+    (
+        name,
+        email,
+        phone,
+        department,
+        salary,
+        joining_date,
+        address
+    ))
 
-
-        connection.commit()
-
-
-        print("=================================")
-        print("Employee added successfully!")
-        print("Employee ID:", cursor.lastrowid)
-        print("=================================")
-
-
-    except sqlite3.Error as error:
-
-        connection.rollback()
-
-        connection.close()
-
-
-        return f"""
-        <h2>Error adding employee!</h2>
-
-        <p>
-            {error}
-        </p>
-
-        <br>
-
-        <a href="/add-employee">
-            Go Back
-        </a>
-        """
-
+    connection.commit()
 
     connection.close()
-
 
     return redirect("/employees")
 
 
 # =========================================
-# EMPLOYEES LIST
+# EMPLOYEES
 # =========================================
 
 @app.route("/employees")
 def employees():
 
+    if not login_required():
+
+        return redirect("/login")
+
     connection = get_database_connection()
 
     cursor = connection.cursor()
-
 
     cursor.execute("""
         SELECT *
@@ -714,50 +587,45 @@ def employees():
         ORDER BY id DESC
     """)
 
-
     employees = cursor.fetchall()
 
-
     connection.close()
-
 
     theme = request.cookies.get(
         "theme",
         "light"
     )
 
-
     return render_template(
         "employees.html",
-
         employees=employees,
-
         theme=theme
     )
 
 
 # =========================================
-# SEARCH EMPLOYEES
+# SEARCH
 # =========================================
 
 @app.route("/search")
 def search():
+
+    if not login_required():
+
+        return redirect("/login")
 
     search_text = request.args.get(
         "q",
         ""
     ).strip()
 
-
     connection = get_database_connection()
 
     cursor = connection.cursor()
 
-
     if search_text:
 
         search_value = f"%{search_text}%"
-
 
         cursor.execute("""
             SELECT *
@@ -776,7 +644,6 @@ def search():
             search_value
         ))
 
-
     else:
 
         cursor.execute("""
@@ -785,26 +652,19 @@ def search():
             ORDER BY id DESC
         """)
 
-
     employees = cursor.fetchall()
 
-
     connection.close()
-
 
     theme = request.cookies.get(
         "theme",
         "light"
     )
 
-
     return render_template(
         "employees.html",
-
         employees=employees,
-
         theme=theme,
-
         search_text=search_text
     )
 
@@ -813,15 +673,16 @@ def search():
 # DELETE EMPLOYEE
 # =========================================
 
-@app.route(
-    "/delete-employee/<int:id>"
-)
+@app.route("/delete-employee/<int:id>")
 def delete_employee(id):
+
+    if not login_required():
+
+        return redirect("/login")
 
     connection = get_database_connection()
 
     cursor = connection.cursor()
-
 
     cursor.execute("""
         DELETE FROM employees
@@ -831,11 +692,9 @@ def delete_employee(id):
         id,
     ))
 
-
     connection.commit()
 
     connection.close()
-
 
     return redirect("/employees")
 
@@ -844,15 +703,16 @@ def delete_employee(id):
 # EDIT EMPLOYEE PAGE
 # =========================================
 
-@app.route(
-    "/edit-employee/<int:id>"
-)
+@app.route("/edit-employee/<int:id>")
 def edit_employee_page(id):
+
+    if not login_required():
+
+        return redirect("/login")
 
     connection = get_database_connection()
 
     cursor = connection.cursor()
-
 
     cursor.execute("""
         SELECT *
@@ -863,41 +723,28 @@ def edit_employee_page(id):
         id,
     ))
 
-
     employee = cursor.fetchone()
 
-
     connection.close()
-
-
-    # =====================================
-    # EMPLOYEE NOT FOUND
-    # =====================================
 
     if employee is None:
 
         return """
         <h2>Employee not found!</h2>
 
-        <br>
-
         <a href="/employees">
             Back to Employees
         </a>
         """
-
 
     theme = request.cookies.get(
         "theme",
         "light"
     )
 
-
     return render_template(
         "edit-employee.html",
-
         employee=employee,
-
         theme=theme
     )
 
@@ -912,51 +759,62 @@ def edit_employee_page(id):
 )
 def edit_employee(id):
 
+    if not login_required():
+
+        return redirect("/login")
+
     name = request.form.get(
         "name",
         ""
     ).strip()
-
 
     email = request.form.get(
         "email",
         ""
     ).strip()
 
-
     phone = request.form.get(
         "phone",
         ""
     ).strip()
-
 
     department = request.form.get(
         "department",
         ""
     ).strip()
 
-
     salary = request.form.get(
         "salary",
         ""
     ).strip()
-
 
     joining_date = request.form.get(
         "joining_date",
         ""
     ).strip()
 
-
     address = request.form.get(
         "address",
         ""
     ).strip()
 
+    if not name:
+        return "Name is required!"
 
-    # =====================================
-    # SALARY VALIDATION
-    # =====================================
+    if not email:
+        return "Email is required!"
+
+    if not phone:
+        return "Phone is required!"
+
+    if not department:
+        return "Department is required!"
+
+    if not salary:
+        return "Salary is required!"
+
+    if not joining_date:
+        return "Joining date is required!"
 
     try:
 
@@ -964,47 +822,23 @@ def edit_employee(id):
 
     except ValueError:
 
-        return """
-        <h2>Salary must be a number!</h2>
-
-        <br>
-
-        <a href="/employees">
-            Back to Employees
-        </a>
-        """
-
-
-    # =====================================
-    # UPDATE DATABASE
-    # =====================================
+        return "Salary must be a number!"
 
     connection = get_database_connection()
 
     cursor = connection.cursor()
 
-
     cursor.execute("""
         UPDATE employees
-
         SET
-
             name = ?,
-
             email = ?,
-
             phone = ?,
-
             department = ?,
-
             salary = ?,
-
             joining_date = ?,
-
             address = ?
-
         WHERE id = ?
-
     """,
     (
         name,
@@ -1017,17 +851,15 @@ def edit_employee(id):
         id
     ))
 
-
     connection.commit()
 
     connection.close()
-
 
     return redirect("/employees")
 
 
 # =========================================
-# START FLASK SERVER
+# START APPLICATION
 # =========================================
 
 if __name__ == "__main__":
@@ -1037,3 +869,4 @@ if __name__ == "__main__":
     app.run(
         debug=True
     )
+

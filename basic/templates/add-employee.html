@@ -208,44 +208,6 @@
 
 
         /* =========================
-           LOGIN BUTTON
-        ========================= */
-
-        .login-btn {
-            border: 1px solid #00bcd4;
-
-            padding: 8px 15px;
-
-            border-radius: 5px;
-        }
-
-        .login-btn:hover {
-            background-color: #00bcd4;
-
-            color: white !important;
-        }
-
-
-        /* =========================
-           REGISTER BUTTON
-        ========================= */
-
-        .register-btn {
-            background-color: #00bcd4;
-
-            padding: 8px 15px;
-
-            border-radius: 5px;
-        }
-
-        .register-btn:hover {
-            background-color: #0097a7;
-
-            color: white !important;
-        }
-
-
-        /* =========================
            FORM CONTAINER
         ========================= */
 
@@ -566,50 +528,6 @@
                 </a>
 
             </li>
-
-
-            <!-- =========================
-                 LOGIN / LOGOUT
-            ========================= -->
-
-            {% if username %}
-
-                <li>
-
-                    <a href="/logout">
-
-                        Logout
-
-                    </a>
-
-                </li>
-
-            {% else %}
-
-                <li>
-
-                    <a href="/login"
-                       class="login-btn">
-
-                        Login
-
-                    </a>
-
-                </li>
-
-
-                <li>
-
-                    <a href="/register"
-                       class="register-btn">
-
-                        Register
-
-                    </a>
-
-                </li>
-
-            {% endif %}
 
 
         </ul>

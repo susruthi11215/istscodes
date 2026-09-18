@@ -25,8 +25,10 @@
         body {
             font-family: Arial, sans-serif;
             min-height: 100vh;
-            transition: background-color 0.3s ease,
-                        color 0.3s ease;
+
+            transition:
+                background-color 0.3s ease,
+                color 0.3s ease;
         }
 
 
@@ -82,9 +84,11 @@
 
         .navbar {
             background-color: #222;
+
             padding: 15px 30px;
 
             display: flex;
+
             align-items: center;
 
             min-height: 70px;
@@ -97,7 +101,9 @@
 
         .logo {
             color: white;
+
             font-size: 22px;
+
             font-weight: bold;
 
             margin-right: auto;
@@ -110,9 +116,10 @@
 
         .theme-buttons {
             display: flex;
+
             gap: 10px;
 
-            margin-right: 20px;
+            margin-right: 30px;
         }
 
         .theme-buttons a {
@@ -127,6 +134,8 @@
             border-radius: 5px;
 
             font-size: 14px;
+
+            transition: 0.3s;
         }
 
         .theme-buttons a:hover {
@@ -154,6 +163,8 @@
             text-decoration: none;
 
             font-size: 16px;
+
+            transition: 0.3s;
         }
 
         .nav-links a:hover {
@@ -162,38 +173,29 @@
 
 
         /* =========================
-           LOGIN
+           LOGOUT BUTTON
         ========================= */
 
-        .login-btn {
-            border: 1px solid #00bcd4;
-
-            padding: 8px 15px;
-
-            border-radius: 5px;
-        }
-
-        .login-btn:hover {
-            background-color: #00bcd4;
+        .logout-button {
+            background-color: #e53935;
 
             color: white !important;
-        }
 
-
-        /* =========================
-           REGISTER
-        ========================= */
-
-        .register-btn {
-            background-color: #00bcd4;
-
-            padding: 8px 15px;
+            padding: 8px 14px;
 
             border-radius: 5px;
+
+            text-decoration: none;
+
+            font-size: 14px !important;
+
+            font-weight: bold;
+
+            transition: 0.3s;
         }
 
-        .register-btn:hover {
-            background-color: #0097a7;
+        .logout-button:hover {
+            background-color: #c62828;
 
             color: white !important;
         }
@@ -227,14 +229,51 @@
             font-size: 18px;
         }
 
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                flex-wrap: wrap;
+
+                gap: 15px;
+
+                padding: 15px;
+            }
+
+            .logo {
+                width: 100%;
+
+                margin-right: 0;
+
+                text-align: center;
+            }
+
+            .theme-buttons {
+                margin-right: 0;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+
+                justify-content: center;
+
+                width: 100%;
+
+                gap: 15px;
+            }
+
+        }
+
     </style>
 
 </head>
 
 
-<!-- IMPORTANT:
-     Flask sends theme = light/dark
--->
+<!-- Flask sends theme = light/dark -->
 
 <body class="{{ theme }}">
 
@@ -296,32 +335,14 @@
                 </a>
             </li>
 
+            <!-- LOGOUT -->
 
-            {% if username %}
-
-                <li>
-                    <a href="/logout">
-                        Logout
-                    </a>
-                </li>
-
-            {% else %}
-
-                <li>
-                    <a href="/login"
-                       class="login-btn">
-                        Login
-                    </a>
-                </li>
-
-                <li>
-                    <a href="/register"
-                       class="register-btn">
-                        Register
-                    </a>
-                </li>
-
-            {% endif %}
+            <li>
+                <a href="/logout"
+                   class="logout-button">
+                    Logout
+                </a>
+            </li>
 
         </ul>
 
@@ -359,3 +380,4 @@
 </body>
 
 </html>
+

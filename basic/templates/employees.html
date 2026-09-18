@@ -24,6 +24,7 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
+
         /* ================= LIGHT THEME ================= */
 
         body.light {
@@ -85,20 +86,30 @@
 
         .navbar {
             background-color: #222;
+
             min-height: 70px;
+
             padding: 0 35px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
 
             gap: 20px;
         }
 
+
+        /* ================= LOGO ================= */
+
         .logo {
             color: white;
+
             font-size: 22px;
+
             font-weight: bold;
+
             white-space: nowrap;
         }
 
@@ -107,12 +118,15 @@
 
         .theme-buttons {
             display: flex;
+
             align-items: center;
+
             gap: 10px;
         }
 
         .theme-buttons a {
             color: white;
+
             text-decoration: none;
 
             border: 1px solid #00bcd4;
@@ -128,6 +142,7 @@
 
         .theme-buttons a:hover {
             background-color: #00bcd4;
+
             color: white;
         }
 
@@ -136,6 +151,7 @@
 
         .nav-links {
             display: flex;
+
             align-items: center;
 
             gap: 15px;
@@ -145,6 +161,7 @@
 
         .nav-links a {
             color: white;
+
             text-decoration: none;
 
             font-size: 16px;
@@ -161,38 +178,18 @@
         }
 
 
-        /* ================= LOGIN BUTTON ================= */
-
-        .login-btn {
-            border: 1px solid #00bcd4;
-        }
-
-        .login-btn:hover {
-            background-color: #00bcd4;
-            color: white !important;
-        }
-
-
-        /* ================= REGISTER BUTTON ================= */
-
-        .register-btn {
-            background-color: #00bcd4;
-        }
-
-        .register-btn:hover {
-            background-color: #0097a7;
-            color: white !important;
-        }
-
-
         /* ================= MAIN CONTAINER ================= */
 
         .container {
             width: 92%;
+
             max-width: 1400px;
 
             margin: 40px auto;
         }
+
+
+        /* ================= HEADING ================= */
 
         h1 {
             text-align: center;
@@ -213,6 +210,7 @@
             display: inline-block;
 
             background-color: #00bcd4;
+
             color: white;
 
             text-decoration: none;
@@ -222,6 +220,7 @@
             border-radius: 5px;
 
             font-size: 16px;
+
             font-weight: bold;
 
             transition: 0.3s;
@@ -445,6 +444,8 @@
     <nav class="navbar">
 
 
+        <!-- ================= LOGO ================= -->
+
         <div class="logo">
             Employee Management System
         </div>
@@ -493,34 +494,8 @@
                 </a>
             </li>
 
-            {% if username %}
-
-            <li>
-                <a href="/logout"
-                   class="login-btn">
-                    Logout
-                </a>
-            </li>
-
-            {% else %}
-
-            <li>
-                <a href="/login"
-                   class="login-btn">
-                    Login
-                </a>
-            </li>
-
-            <li>
-                <a href="/register"
-                   class="register-btn">
-                    Register
-                </a>
-            </li>
-
-            {% endif %}
-
         </ul>
+
 
     </nav>
 

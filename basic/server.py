@@ -84,13 +84,14 @@ def login_required():
 
 
 # =========================================
-# THEME
+# 1. SET THEME
 # =========================================
 
 @app.route("/set-theme/<theme>")
 def set_theme(theme):
 
     if theme not in ["light", "dark"]:
+
         theme = "light"
 
     previous_page = request.referrer or "/"
@@ -109,15 +110,14 @@ def set_theme(theme):
 
 
 # =========================================
-# HOME PAGE
+# 2. HOME PAGE
 # =========================================
 
 @app.route("/")
 def home():
 
-    # User must login first
-
     if not login_required():
+
         return redirect("/login")
 
     theme = request.cookies.get(
@@ -138,7 +138,7 @@ def home():
 
 
 # =========================================
-# REGISTER PAGE
+# 3. REGISTER PAGE - GET
 # =========================================
 
 @app.route("/register", methods=["GET"])
@@ -156,7 +156,7 @@ def register_page():
 
 
 # =========================================
-# REGISTER USER
+# 4. REGISTER USER - POST
 # =========================================
 
 @app.route("/register", methods=["POST"])
@@ -264,20 +264,15 @@ def register():
 
     connection.close()
 
-    # Go to login page
-
     return redirect("/login")
 
 
 # =========================================
-# LOGIN PAGE
+# 5. LOGIN PAGE - GET
 # =========================================
 
 @app.route("/login", methods=["GET"])
 def login_page():
-
-    # If already logged in,
-    # go directly to home
 
     if "user_id" in session:
 
@@ -295,7 +290,7 @@ def login_page():
 
 
 # =========================================
-# LOGIN USER
+# 6. LOGIN USER - POST
 # =========================================
 
 @app.route("/login", methods=["POST"])
@@ -314,11 +309,6 @@ def login():
         "password",
         ""
     )
-
-    print("=================================")
-    print("LOGIN ATTEMPT")
-    print("Username:", username)
-    print("=================================")
 
     # =====================================
     # VALIDATION
@@ -366,8 +356,6 @@ def login():
 
     if user is None:
 
-        print("User not found")
-
         return render_template(
             "login.html",
             theme=request.cookies.get(
@@ -388,8 +376,6 @@ def login():
 
     if not password_correct:
 
-        print("Incorrect password")
-
         return render_template(
             "login.html",
             theme=request.cookies.get(
@@ -403,15 +389,7 @@ def login():
     # LOGIN SUCCESS
     # =====================================
 
-    print("Login successful!")
-    print("User ID:", user["id"])
-    print("Username:", user["username"])
-
-    # Clear old session
-
     session.clear()
-
-    # Store current user
 
     session["user_id"] = user["id"]
 
@@ -419,15 +397,11 @@ def login():
 
     session["fullname"] = user["fullname"]
 
-    # =====================================
-    # REDIRECT TO HOME
-    # =====================================
-
     return redirect("/")
 
 
 # =========================================
-# LOGOUT
+# 7. LOGOUT
 # =========================================
 
 @app.route("/logout")
@@ -439,7 +413,7 @@ def logout():
 
 
 # =========================================
-# ADD EMPLOYEE PAGE
+# 8. ADD EMPLOYEE PAGE - GET
 # =========================================
 
 @app.route("/add-employee", methods=["GET"])
@@ -461,7 +435,7 @@ def add_employee_page():
 
 
 # =========================================
-# ADD EMPLOYEE
+# 9. ADD EMPLOYEE - POST
 # =========================================
 
 @app.route("/add-employee", methods=["POST"])
@@ -506,22 +480,32 @@ def add_employee():
         ""
     ).strip()
 
+    # =====================================
+    # VALIDATION
+    # =====================================
+
     if not name:
+
         return "Name is required!"
 
     if not email:
+
         return "Email is required!"
 
     if not phone:
+
         return "Phone is required!"
 
     if not department:
+
         return "Department is required!"
 
     if not salary:
+
         return "Salary is required!"
 
     if not joining_date:
+
         return "Joining date is required!"
 
     try:
@@ -531,6 +515,10 @@ def add_employee():
     except ValueError:
 
         return "Salary must be a number!"
+
+    # =====================================
+    # INSERT EMPLOYEE
+    # =====================================
 
     connection = get_database_connection()
 
@@ -567,7 +555,7 @@ def add_employee():
 
 
 # =========================================
-# EMPLOYEES
+# 10. EMPLOYEES
 # =========================================
 
 @app.route("/employees")
@@ -604,7 +592,7 @@ def employees():
 
 
 # =========================================
-# SEARCH
+# 11. SEARCH EMPLOYEES
 # =========================================
 
 @app.route("/search")
@@ -670,7 +658,7 @@ def search():
 
 
 # =========================================
-# DELETE EMPLOYEE
+# 12. DELETE EMPLOYEE
 # =========================================
 
 @app.route("/delete-employee/<int:id>")
@@ -700,10 +688,10 @@ def delete_employee(id):
 
 
 # =========================================
-# EDIT EMPLOYEE PAGE
+# 13. EDIT EMPLOYEE PAGE - GET
 # =========================================
 
-@app.route("/edit-employee/<int:id>")
+@app.route("/edit-employee/<int:id>", methods=["GET"])
 def edit_employee_page(id):
 
     if not login_required():
@@ -750,7 +738,7 @@ def edit_employee_page(id):
 
 
 # =========================================
-# EDIT EMPLOYEE
+# 14. EDIT EMPLOYEE - POST
 # =========================================
 
 @app.route(
@@ -798,22 +786,32 @@ def edit_employee(id):
         ""
     ).strip()
 
+    # =====================================
+    # VALIDATION
+    # =====================================
+
     if not name:
+
         return "Name is required!"
 
     if not email:
+
         return "Email is required!"
 
     if not phone:
+
         return "Phone is required!"
 
     if not department:
+
         return "Department is required!"
 
     if not salary:
+
         return "Salary is required!"
 
     if not joining_date:
+
         return "Joining date is required!"
 
     try:
@@ -823,6 +821,10 @@ def edit_employee(id):
     except ValueError:
 
         return "Salary must be a number!"
+
+    # =====================================
+    # UPDATE EMPLOYEE
+    # =====================================
 
     connection = get_database_connection()
 

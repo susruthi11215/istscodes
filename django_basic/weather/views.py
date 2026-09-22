@@ -1,5 +1,6 @@
 import requests
 from django.shortcuts import render
+from .models import WeatherData
 
 
 def weather(request):
@@ -26,6 +27,14 @@ def weather(request):
         data = response.json()
 
         if response.status_code == 200:
+
+            WeatherData.objects.create(
+                city = data['name'],
+                temperature = data['main']['temp'],
+                description = data['weather'][0]['description'],
+                humidity = data['main']['humidity']
+
+            )
 
             context = {
                 'city': data['name'],
